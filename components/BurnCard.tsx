@@ -200,13 +200,13 @@ export const BurnCard = React.memo(function BurnCard({
       }
     })();
 
-    // CRAA amount - show user share instead of total locked
+    // CRAA amount - show total locked amount (before fees)
     widgets.push(
       <Badge
         key='craa'
         className='bg-orange-600/80 text-xs font-mono min-w-[80px] text-center'
       >
-        💰 {userShare} CRAA
+        💰 {fmtCRAA(data.lockedCRAA)} CRAA
       </Badge>
     );
 
