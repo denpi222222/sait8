@@ -105,3 +105,4 @@
 [context.branch-deploy.environment]
   NODE_ENV = "development"
   NEXT_PUBLIC_CHAIN_ID = "33139"
+  NEXT_PUBLIC_DISABLE_CSP = "true"

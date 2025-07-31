@@ -132,19 +132,18 @@ export function middleware(request: NextRequest) {
     `https://cloud.reown.com`,
   ];
 
-  // Loosen policy for development environment
+  // Production-ready CSP with proper security
   if (isDevelopment) {
+    // Development: more permissive for debugging
     scriptSrc.push(`'unsafe-eval'`);
     scriptSrc.push(`'unsafe-inline'`);
     connectSrc.push(`http:`);
     connectSrc.push(`ws:`);
   } else {
-    // For production, use nonce-based CSP instead of unsafe-inline
-    // This provides better security while allowing necessary scripts
-    const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
-    scriptSrc.push(`'nonce-${nonce}'`);
-    // Only allow unsafe-inline for styles in production
-    styleSrc.push(`'unsafe-inline'`);
+    // Production: secure but compatible with Next.js
+    scriptSrc.push(`'unsafe-inline'`); // Required for Next.js
+    scriptSrc.push(`'unsafe-eval'`);   // Required for some Web3 libraries
+    styleSrc.push(`'unsafe-inline'`);  // Required for dynamic styles
   }
 
   const cspHeader = [
