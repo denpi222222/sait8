@@ -1,0 +1,107 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+# Security headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' https:; connect-src 'self' https: wss:; frame-src 'self' https:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';"
+
+# API routes security
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+
+# Static assets caching
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Images caching
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+# Security for sensitive files
+[[headers]]
+  for = "/*.json"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+# Redirects for security
+[[redirects]]
+  from = "/.env*"
+  to = "/404"
+  status = 404
+
+[[redirects]]
+  from = "/config/*"
+  to = "/404"
+  status = 404
+
+[[redirects]]
+  from = "/package.json"
+  to = "/404"
+  status = 404
+
+[[redirects]]
+  from = "/package-lock.json"
+  to = "/404"
+  status = 404
+
+# Force HTTPS
+[[redirects]]
+  from = "http://:host/*"
+  to = "https://:host/:splat"
+  status = 301
+  force = true
+
+# API routes
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+
+# Fallback for SPA
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Security middleware
+[functions]
+  directory = "netlify/functions"
+
+# Environment variables for security
+[context.production.environment]
+  NODE_ENV = "production"
+  NEXT_PUBLIC_CHAIN_ID = "33139"
+  # Add your WalletConnect Project ID here
+  # NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID = "your_project_id"
+
+[context.deploy-preview.environment]
+  NODE_ENV = "preview"
+  NEXT_PUBLIC_CHAIN_ID = "33139"
+
+[context.branch-deploy.environment]
+  NODE_ENV = "development"
+  NEXT_PUBLIC_CHAIN_ID = "33139"
