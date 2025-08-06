@@ -1,7 +1,6 @@
 [build]
   command = "npm run build"
   publish = ".next"
-  functions = "netlify/functions"
 
 [build.environment]
   NODE_VERSION = "18"
@@ -9,7 +8,6 @@
 # Security headers
 [[headers]]
   for = "/*"
-
   [headers.values]
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
@@ -17,7 +15,7 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https: https://*.netlify.app https://*.alchemy.com https://*.walletconnect.com https://*.apechain.com https://*.opensea.io https://*.magiceden.io https://*.ipfs.io https://*.ipfs.dweb.link https://*.gateway.pinata.cloud https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/ https://cdn.jsdelivr.net https://unpkg.com https://*.metamask.io https://*.walletconnect.org https://*.walletconnect.com https://*.rainbow.me https://*.coinbase.com https://*.trustwallet.com; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' https:; connect-src 'self' https: wss:; frame-src 'self' https:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https: https://*.netlify.app https://*.alchemy.com https://*.walletconnect.com https://*.apechain.com https://*.opensea.io https://*.magiceden.io https://*.ipfs.io https://*.ipfs.dweb.link https://*.gateway.pinata.cloud https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/ https://cdn.jsdelivr.net https://unpkg.com https://*.metamask.io https://*.walletconnect.org https://*.walletconnect.com https://*.rainbow.me https://*.coinbase.com https://*.trustwallet.com; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' https:; connect-src 'self' https: wss:; frame-src 'self' https:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';"
 
 # API routes security
 [[headers]]
@@ -41,45 +39,6 @@
   for = "/images/*"
   [headers.values]
     Cache-Control = "public, max-age=86400"
-    Access-Control-Allow-Origin = "*"
-
-# Public assets
-[[headers]]
-  for = "/public/*"
-  [headers.values]
-    Cache-Control = "public, max-age=86400"
-    Access-Control-Allow-Origin = "*"
-
-# Static files
-[[headers]]
-  for = "/*.png"
-  [headers.values]
-    Cache-Control = "public, max-age=86400"
-    Access-Control-Allow-Origin = "*"
-
-[[headers]]
-  for = "/*.jpg"
-  [headers.values]
-    Cache-Control = "public, max-age=86400"
-    Access-Control-Allow-Origin = "*"
-
-[[headers]]
-  for = "/*.jpeg"
-  [headers.values]
-    Cache-Control = "public, max-age=86400"
-    Access-Control-Allow-Origin = "*"
-
-[[headers]]
-  for = "/*.gif"
-  [headers.values]
-    Cache-Control = "public, max-age=86400"
-    Access-Control-Allow-Origin = "*"
-
-[[headers]]
-  for = "/*.svg"
-  [headers.values]
-    Cache-Control = "public, max-age=86400"
-    Access-Control-Allow-Origin = "*"
 
 # Security for sensitive files
 [[headers]]
