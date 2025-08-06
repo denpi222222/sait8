@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import { useAlchemyNfts } from '@/hooks/useAlchemyNfts';
-import { useAccount, useReadContract } from 'wagmi';
+import { useAccount, useReadContract, useChainId } from 'wagmi';
 import { useSafeContractWrite } from '@/hooks/use-safe-contract-write';
-import crazyCubeUltimateAbi from '@/contracts/abi/CrazyCubeUltimate.json';
+import { nftAbi } from '@/config/abis/nftAbi';
 import { NFT_CONTRACT_ADDRESS, MAIN_CHAIN_ID } from '@/config/wagmi';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,6 +12,11 @@ import { Loader2 } from 'lucide-react';
 import { useGraveyardAvailability } from '@/hooks/useGraveyardAvailability';
 import { formatEther } from 'viem';
 import { useNetwork } from '@/hooks/use-network';
+import { useTranslation } from 'react-i18next';
+import React from 'react';
+import { useMobile } from '@/hooks/use-mobile';
+import { SECURITY_CONFIG, validateChainId, validateContractAddress } from '@/config/security';
+import { useToast } from '@/components/ui/use-toast';
 
 const bytes32Random = (): `0x${string}` => {
   const bytes = crypto.getRandomValues(new Uint8Array(32));
@@ -29,11 +34,20 @@ export function BreedForm() {
   const [parent1, setParent1] = useState<number | null>(null);
   const [parent2, setParent2] = useState<number | null>(null);
   const { isApeChain, requireApeChain } = useNetwork();
+  const { toast } = useToast();
+  const chainId = useChainId();
 
   const { data: breedCost } = useReadContract({
     address: NFT_CONTRACT_ADDRESS,
-    abi: crazyCubeUltimateAbi.abi ?? crazyCubeUltimateAbi,
+    abi: nftAbi,
     functionName: 'getBreedCostCRAA',
+    chainId: MAIN_CHAIN_ID,
+  });
+
+  const { data: breedCooldown } = useReadContract({
+    address: NFT_CONTRACT_ADDRESS,
+    abi: nftAbi,
+    functionName: 'breedCooldown',
     chainId: MAIN_CHAIN_ID,
   });
 
@@ -47,10 +61,32 @@ export function BreedForm() {
 
   const handleBreed = requireApeChain(async () => {
     if (!isReady) return;
+
+    // CRITICAL: Validate chainId to prevent network spoofing
+    if (!validateChainId(chainId)) {
+      toast({
+        title: 'Wrong Network',
+        description: 'Please switch to ApeChain network',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    // CRITICAL: Validate contract addresses
+    const expectedNFTContract = SECURITY_CONFIG.CONTRACTS.NFT_CONTRACT;
+    if (!validateContractAddress(expectedNFTContract)) {
+      toast({
+        title: 'Security Error',
+        description: 'Invalid NFT contract address',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     try {
       await writeContract({
         address: NFT_CONTRACT_ADDRESS,
-        abi: crazyCubeUltimateAbi.abi ?? crazyCubeUltimateAbi,
+        abi: nftAbi,
         functionName: 'requestBreed',
         args: [BigInt(parent1!), BigInt(parent2!), bytes32Random()],
         chainId: MAIN_CHAIN_ID,

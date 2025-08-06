@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { parseEther, formatEther } from 'viem';
 import { getColor, getLabel } from '@/lib/rarity';
 import { useTranslation } from 'react-i18next';
+import { useChainId } from 'wagmi';
 import {
   AlertDialog,
   AlertDialogContent,
@@ -23,6 +24,7 @@ import type { NFT } from '@/types/nft';
 import { useNetwork } from '@/hooks/use-network';
 import React from 'react';
 import { useMobile } from '@/hooks/use-mobile';
+import { SECURITY_CONFIG, validateChainId, validateContractAddress } from '@/config/security';
 
 interface BurnCardProps {
   nft: NFT;
@@ -33,44 +35,29 @@ interface BurnCardProps {
 // Helper: format wei → CRAA human-readable
 const fmtCRAA = (val: string | bigint | number) => {
   try {
-    let valBigInt: bigint;
+    let valNumber: number;
 
     if (typeof val === 'string') {
-      // Check if it's already a decimal number (contains dot)
-      if (val.includes('.')) {
-        // Convert decimal to wei (multiply by 10^18)
-        const parts = val.split('.');
-        const wholePart = parts[0] || '0';
-        const decimalPart = parts[1] || '';
-        const paddedDecimal = decimalPart.padEnd(18, '0').slice(0, 18);
-        valBigInt = BigInt(wholePart + paddedDecimal);
-      } else {
-        valBigInt = BigInt(val);
-      }
+      // If it's a string, treat it as CRAA (not wei)
+      valNumber = parseFloat(val);
     } else if (typeof val === 'number') {
-      // Convert number to wei (multiply by 10^18)
-      const valStr = val.toString();
-      if (valStr.includes('.')) {
-        const parts = valStr.split('.');
-        const wholePart = parts[0] || '0';
-        const decimalPart = parts[1] || '';
-        const paddedDecimal = decimalPart.padEnd(18, '0').slice(0, 18);
-        valBigInt = BigInt(wholePart + paddedDecimal);
-      } else {
-        valBigInt = BigInt(valStr + '000000000000000000'); // 18 zeros
-      }
+      valNumber = val;
     } else {
-      valBigInt = val;
+      // If it's bigint, convert to number (assuming it's in wei)
+      valNumber = Number(formatEther(val));
     }
 
-    const craa = Number(formatEther(valBigInt));
-    if (!isFinite(craa) || craa < 0) {
+    if (!isFinite(valNumber) || valNumber < 0) {
       return '0';
     }
     return new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 }).format(
-      craa
+      valNumber
     );
   } catch (error) {
+    // Safe error handling for production
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('fmtCRAA error:', error);
+    }
     return '0';
   }
 };
@@ -100,7 +87,7 @@ export const BurnCard = React.memo(function BurnCard({
   const [step, setStep] = useState<
     'idle' | 'approvingCRAA' | 'approvingNFT' | 'burning'
   >('idle');
-  const [waitHours, setWaitHours] = useState<12 | 24 | 48>(12);
+  const [waitMinutes, setWaitMinutes] = useState<12 | 60 | 255>(12);
   const [burnSplit, setBurnSplit] = useState<{
     playerBps: number;
     poolBps: number;
@@ -110,12 +97,18 @@ export const BurnCard = React.memo(function BurnCard({
   const [dialogOpen, setDialogOpen] = useState(false);
   const { isApeChain, requireApeChain } = useNetwork();
   const { isMobile } = useMobile();
+  const chainId = useChainId();
 
   // Convert string balance to wei safely
   const balWei = (() => {
     try {
+      if (!craaBalance) return 0n;
       return parseEther(String(craaBalance)); // "9 999 915 222 398" → wei
-    } catch {
+    } catch (error) {
+      // CRITICAL: Safe error handling to prevent DoS
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('Invalid balance format:', craaBalance);
+      }
       return 0n;
     }
   })();
@@ -133,16 +126,16 @@ export const BurnCard = React.memo(function BurnCard({
     ? Math.max(0, data.lastPingTime + pingInterval - nowSec)
     : 0;
 
-  // fetch burn split when waitHours changes
+  // fetch burn split when waitMinutes changes
   useEffect(() => {
     let ignore = false;
-    getBurnSplit(waitHours).then(split => {
+    getBurnSplit(waitMinutes).then(split => {
       if (!ignore) setBurnSplit(split);
     });
     return () => {
       ignore = true;
     };
-  }, [waitHours]);
+  }, [waitMinutes]);
 
   // Helper to calculate fee based on locked CRAA and burnFeeBps + additional fees
   const calcFee = () => {
@@ -200,7 +193,7 @@ export const BurnCard = React.memo(function BurnCard({
       }
     })();
 
-    // CRAA amount - show total locked amount (before fees)
+    // CRAA amount - show only locked CRAA (not pending)
     widgets.push(
       <Badge
         key='craa'
@@ -322,6 +315,17 @@ export const BurnCard = React.memo(function BurnCard({
       });
       return;
     }
+
+    // CRITICAL: Validate chainId to prevent network spoofing
+    if (!validateChainId(chainId)) {
+      toast({
+        title: t('wallet.wrongNetwork', 'Wrong Network'),
+        description: t('wallet.switchToApeChain', 'Please switch to ApeChain network'),
+        variant: 'destructive',
+      });
+      return;
+    }
+
     if (!data) return;
     if (data.isInGraveyard) {
       toast({
@@ -332,7 +336,20 @@ export const BurnCard = React.memo(function BurnCard({
       return;
     }
 
-    // Final balance check before proceeding
+    // CRITICAL: Validate contract addresses
+    const expectedGameContract = SECURITY_CONFIG.CONTRACTS.GAME_CONTRACT;
+    const expectedCRAAContract = SECURITY_CONFIG.CONTRACTS.CRAA_TOKEN;
+    
+    if (!validateContractAddress(expectedGameContract)) {
+      toast({
+        title: 'Security Error',
+        description: 'Invalid game contract address',
+        variant: 'destructive',
+      });
+      return;
+    }
+    
+    // Check CRAA balance before proceeding
     const fee = calcFee();
     const feeWei = parseEther(fee);
 
@@ -356,19 +373,35 @@ export const BurnCard = React.memo(function BurnCard({
     try {
       setIsProcessing(true);
       setStep('approvingCRAA');
-      toast({ title: 'Approving CRAA', description: `Fee: ${fee} CRAA` });
-      await approveCRAA(fee.replace(/,/g, ''));
+      
+      // CRITICAL: Show exact amount being approved to prevent approve-∞ attacks
+      const approvalAmount = fee.replace(/,/g, '');
+      toast({ 
+        title: 'Approving CRAA', 
+        description: `Amount: ${approvalAmount} CRAA (NOT unlimited)`,
+        variant: 'default',
+      });
+      
+      await approveCRAA(approvalAmount);
       setStep('approvingNFT');
-      toast({ title: 'Approving NFT', description: `Token #${tokenId}` });
+      toast({ 
+        title: 'Approving NFT', 
+        description: `Token #${tokenId} (specific token only)`,
+        variant: 'default',
+      });
       await approveNFT(tokenId);
       setStep('burning');
-      toast({ title: 'Burning NFT', description: `Token #${tokenId}` });
+      toast({ 
+        title: 'Burning NFT', 
+        description: `Token #${tokenId}`,
+        variant: 'default',
+      });
       setBurnFX(true);
       setTimeout(() => setBurnFX(false), 3000);
-      await burnNFT(tokenId, waitHours);
+      await burnNFT(tokenId, waitMinutes);
       toast({
         title: 'NFT burned',
-        description: `Sent to graveyard. Claim after ${waitHours}h`,
+        description: `Sent to graveyard. Claim after ${waitMinutes} minutes`,
       });
       if (onActionComplete) onActionComplete();
       const updated = await getNFTGameData(tokenId);
@@ -417,16 +450,16 @@ export const BurnCard = React.memo(function BurnCard({
 
           {/* Wait period selector */}
           <div className='flex justify-center gap-1 mt-2'>
-            {[12, 24, 48].map(h => (
+            {[12, 60, 255].map(m => (
               <Button
-                key={h}
-                variant={waitHours === h ? 'default' : 'outline'}
+                key={m}
+                variant={waitMinutes === m ? 'default' : 'outline'}
                 size='sm'
                 className='px-2 py-1'
-                onClick={() => setWaitHours(h as 12 | 24 | 48)}
+                onClick={() => setWaitMinutes(m as 12 | 60 | 255)}
                 disabled={isProcessing}
               >
-                {h}h
+                {m}
               </Button>
             ))}
           </div>
@@ -464,7 +497,7 @@ export const BurnCard = React.memo(function BurnCard({
                     </div>
                     <div className='text-center text-gray-400/70 pt-0.5 text-[10px]'>
                       {t(
-                        `burn.interface.balanceDetails.split${waitHours}h`,
+                        `burn.interface.balanceDetails.split${waitMinutes}min`,
                         `${burnSplit.playerBps / 100}% / ${burnSplit.poolBps / 100}% / ${burnSplit.burnBps / 100}%`
                       )}
                     </div>
@@ -557,25 +590,41 @@ export const BurnCard = React.memo(function BurnCard({
           <AlertDialogContent className='bg-[#2f2b2b]/95 border border-red-500/30 text-gray-100 max-w-md text-[15px]'>
             <AlertDialogHeader>
               <AlertDialogTitle className='flex items-center text-red-300 text-lg'>
-                <Flame className='w-5 h-5 mr-2' /> Burn NFT #{tokenId}
+                <Flame className='w-5 h-5 mr-2' /> {t('sections.burn.feeBox.confirmDialog.title', `Burn NFT #${tokenId}`).replace('{tokenId}', tokenId)}
               </AlertDialogTitle>
+              
+              {/* NFT Earnings Display */}
+              {data.lockedCRAA && Number(data.lockedCRAA) > 0 && (
+                <div className='bg-gradient-to-r from-orange-500/20 to-red-500/20 border-2 border-orange-400/50 rounded-lg p-4 mb-4 text-center'>
+                  <div className='text-2xl font-bold text-orange-200 mb-1'>
+                    {t('sections.burn.feeBox.confirmDialog.nftEarnings', '🎉 NFT Earnings')}
+                  </div>
+                  <div className='text-3xl font-bold text-yellow-300 mb-2'>
+                    {fmtCRAA(data.lockedCRAA)} CRAA
+                  </div>
+                  <div className='text-sm text-orange-200'>
+                    {t('sections.burn.feeBox.confirmDialog.totalLockedAmount', 'Total locked amount earned by this NFT')}
+                  </div>
+                </div>
+              )}
+              
               <div className='space-y-2 text-orange-50'>
                 <div className='bg-yellow-900/30 border border-yellow-500/50 rounded-md p-3 mb-3'>
                   <div className='text-yellow-200 font-semibold mb-1'>
-                    ⚠️ IMPORTANT: This action is irreversible!
+                    {t('sections.burn.feeBox.confirmDialog.warning', '⚠️ IMPORTANT: This action is irreversible!')}
                   </div>
                   <div className='text-yellow-100 text-sm'>
-                    Your NFT will be permanently burned and sent to graveyard.
+                    {t('sections.burn.feeBox.confirmDialog.description', 'Your NFT will be permanently burned and sent to graveyard.')}
                   </div>
                 </div>
                 <div>
-                  Wait period:{' '}
+                  {t('sections.burn.feeBox.confirmDialog.waitPeriod', 'Wait period:')}{' '}
                   <span className='font-medium text-orange-300'>
-                    {waitHours}h
+                    {waitMinutes} {t('sections.burn.feeBox.confirmDialog.minutes', 'minutes')}
                   </span>
                 </div>
                 <div>
-                  Locked CRAA:{' '}
+                  {t('sections.burn.feeBox.confirmDialog.lockedCRAA', 'Locked CRAA:')}{' '}
                   <span className='font-mono text-yellow-300'>
                     {data.lockedCRAA && Number(data.lockedCRAA) > 0
                       ? fmtCRAA(data.lockedCRAA)
@@ -584,7 +633,7 @@ export const BurnCard = React.memo(function BurnCard({
                   </span>
                 </div>
                 <div>
-                  Fee:{' '}
+                  {t('sections.burn.feeBox.confirmDialog.fee', 'Fee:')}{' '}
                   <span className='font-mono text-red-300'>
                     {calcFee()} CRAA
                   </span>
@@ -594,17 +643,17 @@ export const BurnCard = React.memo(function BurnCard({
                   return (
                     <div className='pt-1 text-xs text-gray-300 space-y-0.5'>
                       <div className='bg-gray-800/60 border border-green-400/40 rounded-md px-2 py-1 flex justify-between items-center text-base font-semibold text-green-200'>
-                        <span>After burn you get</span>
+                        <span>{t('sections.burn.feeBox.confirmDialog.afterBurn', 'After burn you get')}</span>
                         <span className='font-mono'>{s.user}</span>
                       </div>
                       <div>
-                        Pool receives:{' '}
+                        {t('sections.burn.feeBox.confirmDialog.poolReceives', 'Pool receives:')}{' '}
                         <span className='text-orange-300 font-mono'>
                           {s.pool}
                         </span>
                       </div>
                       <div>
-                        Burned forever:{' '}
+                        {t('sections.burn.feeBox.confirmDialog.burnedForever', 'Burned forever:')}{' '}
                         <span className='text-red-400 font-mono'>
                           {s.burn} CRAA
                         </span>
@@ -613,26 +662,26 @@ export const BurnCard = React.memo(function BurnCard({
                   );
                 })()}
                 <div className='pt-2 text-xs text-gray-400'>
-                  You will sign 3 transactions:
+                  {t('sections.burn.feeBox.confirmDialog.transactions', 'You will sign 3 transactions:')}
                   <br />
-                  1️⃣ Approve CRAA fee • 2️⃣ Approve NFT • 3️⃣ Burn NFT
+                  {t('sections.burn.feeBox.confirmDialog.transaction1', '1️⃣ Approve CRAA fee')} • {t('sections.burn.feeBox.confirmDialog.transaction2', '2️⃣ Approve NFT')} • {t('sections.burn.feeBox.confirmDialog.transaction3', '3️⃣ Burn NFT')}
                 </div>
                 {craaBalance && (
                   <div className='pt-2 text-xs text-gray-300'>
-                    Your CRAA balance: {formatEther(balWei)} CRAA
+                    {t('sections.burn.feeBox.confirmDialog.yourBalance', 'Your CRAA balance:')} {formatEther(balWei)} CRAA
                   </div>
                 )}
               </div>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogCancel>{t('sections.burn.feeBox.confirmDialog.cancel', 'Cancel')}</AlertDialogCancel>
               <AlertDialogAction
                 onClick={() => {
                   setDialogOpen(false);
                   handleBurn();
                 }}
               >
-                Confirm Burn
+                {t('sections.burn.feeBox.confirmDialog.confirm', 'Confirm Burn')}
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>

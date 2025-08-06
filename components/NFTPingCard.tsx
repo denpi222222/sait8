@@ -39,6 +39,7 @@ import { useTranslation } from 'react-i18next';
 import { usePerformanceContext } from '@/hooks/use-performance-context';
 import { useNetwork } from '@/hooks/use-network';
 import { cn } from '@/lib/utils';
+import { SECURITY_CONFIG, validateChainId, validateContractAddress } from '@/config/security';
 
 // Use address from config instead of hardcoding
 const GAME_ADDR = apeChain.contracts.gameProxy.address;
@@ -215,7 +216,12 @@ function NFTPingCardComponent({
             totalPerPing: totalPerPingWei,
           });
       } catch (err) {
-      } finally {
+          // Remove console.error for production security
+          // console.error("Error fetching earnings:", err);
+          setEarnings(null);
+        }
+        finally {
+
         if (!ignore) setLoading(false);
       }
     };
@@ -266,6 +272,29 @@ function NFTPingCardComponent({
       });
       return;
     }
+
+    // CRITICAL: Validate chainId to prevent network spoofing
+    if (!validateChainId(chainId)) {
+
+      toast({
+        title: t('wallet.wrongNetwork', 'Wrong Network'),
+        description: t('wallet.switchToApeChain', 'Please switch to ApeChain network'),
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    // CRITICAL: Validate contract addresses
+    const expectedGameContract = SECURITY_CONFIG.CONTRACTS.GAME_CONTRACT;
+    if (!validateContractAddress(expectedGameContract)) {
+      toast({
+        title: 'Security Error',
+        description: 'Invalid game contract address',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     if (!pingReady) return;
     try {
       setIsProcessing(true);
@@ -282,7 +311,7 @@ function NFTPingCardComponent({
         variant: 'destructive',
       });
     } finally {
-      setIsProcessing(false);
+     setIsProcessing(false);
     }
   });
 

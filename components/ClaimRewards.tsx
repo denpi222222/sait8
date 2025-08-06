@@ -12,10 +12,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { motion } from 'framer-motion';
 import { Clock, Gift, Coins, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { useReadContract, useAccount, usePublicClient } from 'wagmi';
+import { useReadContract, useAccount, usePublicClient, useChainId } from 'wagmi';
 import { NFT_CONTRACT_ADDRESS, GAME_CONTRACT_ADDRESS } from '@/config/wagmi';
 import { useTranslation } from 'react-i18next';
 import { useNetwork } from '@/hooks/use-network';
+import { SECURITY_CONFIG, validateChainId, validateContractAddress } from '@/config/security';
 
 // REWRITTEN FROM SCRATCH AS REQUESTED
 interface ClaimableNFTCardProps {
@@ -24,7 +25,7 @@ interface ClaimableNFTCardProps {
   isLoading: boolean;
   index: number;
   isClaimed: boolean;
-  claimMessage?: { type: 'success' | 'error', message: string } | undefined;
+  claimMessage?: { type: 'success' | 'error'; message: string } | undefined;
 }
 
 const ClaimableNFTCard = ({
@@ -258,7 +259,9 @@ export const ClaimRewards = () => {
   const { toast } = useToast();
   const { t } = useTranslation();
   const { address } = useAccount();
+  const chainId = useChainId();
   const { isBlocked, timeLeft } = useClaimBlocking();
+
   
   // State to track claimed NFTs and show messages
   const [claimedNFTs, setClaimedNFTs] = useState<Set<string>>(new Set());
@@ -268,15 +271,38 @@ export const ClaimRewards = () => {
   const claimHooks = rewards.map(reward => useClaimReward(reward.tokenId, refresh));
 
   const handleClaim = async (tokenId: string) => {
+    // CRITICAL: Validate chainId to prevent network spoofing
+    if (!validateChainId(chainId)) {
+      toast({
+
+        title: 'Wrong Network',
+        description: 'Please switch to ApeChain network',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    // CRITICAL: Validate contract addresses
+    const expectedGameContract = SECURITY_CONFIG.CONTRACTS.GAME_CONTRACT;
+    if (!validateContractAddress(expectedGameContract)) {
+      toast({
+        title: 'Security Error',
+        description: 'Invalid game contract address',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     // Immediately block the button and show message
     setClaimedNFTs(prev => new Set(prev).add(tokenId));
     
     const claimHook = claimHooks.find((_, index) => rewards[index]?.tokenId === tokenId);
-    
+
     if (claimHook) {
       try {
         await claimHook.claim();
         
+
         // Show success message
         setClaimMessages(prev => new Map(prev).set(tokenId, {
           type: 'success',
@@ -332,6 +358,7 @@ export const ClaimRewards = () => {
   if (nftsError) {
     return (
       <div className='text-center py-12'>
+
         <AlertCircle className='w-12 h-12 text-red-400 mx-auto mb-4' />
         <div className='text-red-400 mb-2'>Error loading data</div>
         <div className='text-slate-400'>{nftsError}</div>

@@ -55,7 +55,7 @@ export default function SwapModal({ open, onOpenChange }: Props) {
         params: [{ chainId: '0x8173' }],
       });
     } catch (e) {
-      // Удаляем console.error для production безопасности
+      // Remove console.error for production security
       // console.error('Switch error:', e);
       toast({
         title: t('wallet.switchError', 'Network switch failed'),

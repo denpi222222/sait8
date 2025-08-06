@@ -451,7 +451,7 @@ export const useCrazyCubeGame = () => {
 
   // Burn NFT
   const burnNFT = useCallback(
-    async (tokenId: string, waitHours: 12 | 24 | 48) => {
+    async (tokenId: string, waitMinutes: 12 | 60 | 255) => {
       if (!writeContractAsync || !isConnected) {
         throw new Error('Wallet not connected');
       }
@@ -462,7 +462,7 @@ export const useCrazyCubeGame = () => {
           address: GAME_CONTRACT_ADDRESS,
           abi: GAME_CONTRACT_ABI,
           functionName: 'burnNFT',
-          args: [BigInt(tokenId), waitHours],
+          args: [BigInt(tokenId), waitMinutes],
           gas: BigInt(500000),
         });
         return hash;
@@ -582,16 +582,16 @@ export const useCrazyCubeGame = () => {
     [writeContractAsync, isConnected, publicClient]
   );
 
-  // Get burn split for given wait hours (12,24,48)
+  // Get burn split for given wait minutes (12, 60, 255)
   const getBurnSplit = useCallback(
-    async (waitHours: 12 | 24 | 48) => {
+    async (waitMinutes: 12 | 60 | 255) => {
       if (!publicClient) return { playerBps: 0, poolBps: 0, burnBps: 0 };
       try {
         const split: any = await publicClient.readContract({
           address: GAME_CONTRACT_ADDRESS,
           abi: GAME_CONTRACT_ABI,
           functionName: 'burnSplits',
-          args: [BigInt(waitHours) as any],
+          args: [BigInt(waitMinutes) as any],
         });
         // struct BurnSplit { uint16 playerBps; uint16 poolBps; uint16 burnBps; }
         return {

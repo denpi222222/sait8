@@ -13,39 +13,39 @@
       "button": "NFT Köprüsü",
       "guide": {
         "title": "🪄 Diriltme Rehberi",
-        "intro": "OpenSea veya Magic Eden'deki güncel fiyatının 20%'si kadar CRAAA ücreti ödeyerek bir küpü mezarlıktan geri getirebilirsiniz.",
+        "intro": "OpenSea veya Magic Eden'deki güncel fiyatının 20%'si kadar CRAA ücreti ödeyerek bir küpü mezarlıktan geri getirebilirsiniz.",
         "fee": "Ücret son piyasa fiyatına göre otomatik hesaplanır ve kalıcı olarak yakılır.",
         "requirement": "Diriltme için en az 1 yıldıza sahip 2 NFT seçin.",
         "rarity": "Yıldız derecelendirmesi: 1 ⭐ — Yaygın, 2 ⭐ — Az Bulunan, 3 ⭐ — Nadir, 4 ⭐ — Epik, 5 ⭐ — Efsanevi.",
         "penalty": "Başarılı diriltme sonrası seçilen her NFT 1 yıldız kaybeder.",
-        "step1": "1. %20 ücret için CRAAA harcamasını onayla.",
+        "step1": "1. %20 ücret için CRAA harcamasını onayla.",
         "step2": "2. Köprü işlemini onayla — NFT anında cüzdanınıza döner.",
-        "note": "Sadece 5,000 küp mevcuttur, sayıları asla değişmez. Yakılan CRAAA ölü cüzdana gider; kimse kurtaramaz."
+        "note": "Sadece 5,000 küp mevcuttur, sayıları asla değişmez. Yakılan CRAA ölü cüzdana gider; kimse kurtaramaz."
       }
     },
     "burn": {
       "title": "NFT Yak (Küpü Izgara Yap!)",
-      "description": "NFT yak ve CRAAA token kazan! Alevli ızgarada çığlık atan küpler: \"Anneme sevdiğimi söyle!\"",
+      "description": "NFT yak ve CRAA token kazan! Alevli ızgarada çığlık atan küpler: \"Anneme sevdiğimi söyle!\"",
       "button": "NFT Yak",
       "feeBox": {
         "title": "🔥 Yakma Ücreti ve Adımlar",
-        "line1": "• Yakma ücreti küp içindeki kilitli CRAAA'nın <1>%5</1>'idir.",
+        "line1": "• Yakma ücreti küp içindeki kilitli CRAA'nın <1>%10</1>'idir.",
         "line2": "• Yakma <1>üç onay</1> gerektirir:",
         "step1": "1. Sözleşmeye NFT'nizi taşıma izni verin.",
-        "step2": "2. Kilitli jetonların %5'i için CRAAA harcamasına izin verin.",
-        "step3": "3. Son işlemi onayla — küp yanar, CRAAA size gelir.",
-        "note": "Başlamadan önce cüzdanınızda ücret için yeterli CRAAA olduğundan emin olun.",
+        "step2": "2. Kilitli coinlerin %10'u için CRAA harcamasına izin verin.",
+        "step3": "3. Son işlemi onayla — küp yanar, CRAA sana geçer.",
+        "note": "Başlamadan önce cüzdanında ücret için yeterli CRAA olduğundan emin ol.",
         "guide": {
-          "title": "🔥 Yakma Rehberi Buraya tıklayın",
-          "intro": "Yakmadan önce madeni CRAAA'yı açmak için MUTLAKA ping atın (7 günde bir).",
-          "loss": "Yakma sonrası NFT kalıcı olarak mezarlığa gönderilir. CRAAA ödüller bölümünden talep edilebilir.",
-          "step1": "1. Sözleşmeye NFT'nizi taşıma izni verin.",
-          "step2": "2. Kilitli jetonların %5'i için CRAAA harcamasına izin verin.",
-          "step3": "3. Son işlemi onayla — küp yanar, CRAAA size gelir.",
-          "timing": "CRAAA seçilen gecikme (12h / 24h / 48h) sonrasında gelir. Bu süre boyunca küp gridir (bekleme).",
-          "note": "Örnek: 10,000 CRAAA kilitli → ücret 500 CRAAA (%5). Daha uzun gecikme = daha küçük havuz payı.",
-          "pingLock": "Ping sırasında CRAAA cüzdana gitmez — NFT içinde kilitli kalır. Sadece yakarak çekilebilir.",
-          "bridgeNote": "Mezarlıktan NFT'yi 'Köprü' bölümünde dirilt. Küp sayısı 5000 ile sınırlı ve asla değişmez. Her eylemde yakılan CRAAA sonsuza dek ölü cüzdana gider — kimse geri alamaz.",
+          "title": "🔥 Yakma Rehberi Buraya tıkla",
+          "intro": "Yakmadan önce, çıkarılan CRAA'yı açmak için MUTLAKA ping yap (her 7 günde bir).",
+          "loss": "Yakma sonrası NFT kalıcı olarak mezarlığa gönderilir. CRAA ödüller bölümünden alınabilir.",
+          "step1": "1. Sözleşmeye NFT'ni taşıma izni ver.",
+          "step2": "2. Kilitli coinlerin %10'u için CRAA harcamasına izin ver.",
+          "step3": "3. Son işlemi onayla — küp yanar, CRAA sana geçer.",
+          "timing": "CRAA seçilen gecikmeden (12d / 60d / 255d) sonra gelir. Bu süre boyunca küp gri olur (cooldown).",
+          "note": "Örnek: 10.000 CRAA kilitli → ücret 1.000 CRAA (%10). Daha uzun gecikme = daha küçük havuz payı.",
+          "pingLock": "Ping sırasında CRAA cüzdana gitmez — NFT içinde kilitli kalır. Sadece yakarak çekilebilir.",
+          "bridgeNote": "Mezarlıktan NFT'yi 'Köprü' bölümünde dirilt. Küp sayısı 5000 ile sınırlı ve asla değişmez. Her eylemde yakılan CRAA sonsuza dek ölü cüzdana gider — kimse geri alamaz.",
           "sellCRAA": "CRAA Sat: <a>Camelot Exchange</a>",
           "fees": "🔹 CRAA Token Ücretleri • Transferlerde %3 ücret — oyun sözleşmesine gider • DEX satışlarında %10 ücret — oyun sözleşmesine gider • DEX alımlarında %0 ücret — alırken ücret yok • Tüm ücretler oyun ekosistemini ve ödül havuzunu destekler",
           "contractAddress": "CRAA Token Sözleşmesi: 0xBb526D657Cc1Ba772469A6EC96AcB2ed9D2A93e5"
@@ -54,8 +54,8 @@
       "noNFTsDescription": "Yakacak CRAAzyCube NFT'niz yok"
     },
     "claim": {
-      "title": "Talep Et (CRAAA Nerede?)",
-      "description": "Kocaman üzgün gözlü bir küp bağırır: \"Beni talep et ve CRAAA'ını al!\"",
+      "title": "Talep Et (CRAA Nerede?)",
+      "description": "Kocaman üzgün gözlü bir küp bağırır: \"Beni talep et ve CRAA'ını al!\"",
       "button": "Talep Et",
       "processing": "İŞLENİYOR...",
       "claimReward": "TALEP ET",
@@ -75,7 +75,7 @@
     },
     "stats": {
       "title": "İstatistikler (Gözyaşı ve Acı Sayacı)",
-      "description": "Kaç NFT yakıldı, mezarlıktan döndü ve havuzda ne kadar CRAAA var gösterir",
+      "description": "Kaç NFT yakıldı, mezarlıktan döndü ve havuzda ne kadar CRAA var gösterir",
       "button": "İstatistikleri Gör",
       "analytics": "Analitik",
       "yourNFTs": "NFT'leriniz",
@@ -83,7 +83,7 @@
     },
     "ping": {
       "title": "NFT Ping",
-      "description": "CRAAA token kazanmak için NFT'nizi her 10 günde bir pinleyin! Tutarlı ping ile bonusunuz büyür.",
+      "description": "CRAA token kazanmak için NFT'nizi her 24 saatte bir pinleyin! Tutarlı ping ile bonusunuz büyür.",
       "connectWallet": "Küplerinizi görmek için cüzdan bağlayın",
       "noNFTs": "CRAAzyCube NFT bulunamadı.",
       "sentFor": "Ping gönderildi",
@@ -124,7 +124,7 @@
     },
     "graveyard": {
       "title": "Mezarlık",
-      "description": "Yakılmış küplerinizi görün, yas tutun ve CRAAA talep edin.",
+      "description": "Yakılmış küplerinizi görün, yas tutun ve CRAA talep edin.",
       "button": "Mezarlığa Git",
       "phrases": [
         "Burada neden bu kadar karanlık… ☠️",
@@ -219,10 +219,31 @@
         "step2": "2. Çiftleştirme işlemini onaylayın — yeni küp oluşturulur, CRAA yakılır.",
         "note": "Koleksiyon 5,000 küp ile sınırlıdır; CRAA kurtarma olasılığı olmadan ölü cüzdana yanar.",
         "buyNFT": "NFT Satın Al: <a>Magic Eden</a>",
-        "contractAddress": "CRAA Token Sözleşmesi: 0xBb526D657Cc1Ba772469A6EC96AcB2ed9D2A93e5"
+                  "contractAddress": "CRAA Token Sözleşmesi: 0xBb526D657Cc1Ba772469A6EC96AcB2ed9D2A93e5"
+        },
+        "confirmDialog": {
+          "title": "NFT #{tokenId} Yak",
+          "warning": "⚠️ ÖNEMLİ: Bu işlem geri alınamaz!",
+          "description": "NFT'niz kalıcı olarak yakılacak ve mezarlığa gönderilecek.",
+          "waitPeriod": "Bekleme süresi:",
+          "minutes": "dakika",
+          "lockedCRAA": "Kilitli CRAA:",
+          "fee": "Ücret:",
+          "afterBurn": "Yakma sonrası alırsınız",
+          "poolReceives": "Havuz alır:",
+          "burnedForever": "Sonsuza dek yakıldı:",
+          "transactions": "3 işlem imzalayacaksınız:",
+          "transaction1": "1️⃣ CRAA ücretini onayla",
+          "transaction2": "2️⃣ NFT'yi onayla",
+          "transaction3": "3️⃣ NFT'yi yak",
+          "yourBalance": "CRAA bakiyeniz:",
+          "cancel": "İptal",
+          "confirm": "Yakmayı Onayla",
+          "nftEarnings": "🎉 NFT Kazançları",
+          "totalLockedAmount": "Toplam kilitli CRAA"
+        }
       }
-    }
-  },
+    },
   "footer": {
     "copyright": "© 2025 CRAAzyCube — Küplerin ağlayıp şakalaştığı yer!",
     "CRAAshMessage": "Site çöktüyse küp pizza almaya gitmiştir"
@@ -262,17 +283,17 @@
         "title": "🔹 Oynamaya Nasıl Başlanır",
         "goToPing": "• Ping sekmesine gidin — NFT'lerinizi göreceksiniz",
         "activate": "• Yeni küp için Aktifleştir'e basın — bu ilk Ping'tir, CRAA vermez ama zamanlayıcıyı başlatır",
-        "pingAfterActivation": "• Aktivasyondan sonra ping yapabilirsiniz (Ping'e tıklayın). Varsayılan olarak 10 günde bir, ödüller birikmeye başlar",
+        "pingAfterActivation": "• Aktivasyondan sonra ping yapabilirsiniz (Ping'e tıklayın). Varsayılan olarak 24 saatte bir, ödüller birikmeye başlar",
         "pingRewards": "• Her başarılı Ping CRAA getirir — miktar şunlara bağlıdır:",
         "rarityFactor": "- Küp nadirliği (Common, Rare, Mystic, vb.)",
-        "experienceBonus": "- Deneyim bonusunuz — ping kaçırmadan her 10 günde büyür",
+        "experienceBonus": "- Deneyim bonusunuz — her 24 saatte, ping kaçırmadan büyür",
         "timeFactor": "- Ping'ler arası süre (daha fazla dönem geçtiyse, daha fazla CRAA)"
       },
       "experienceBonus": {
         "title": "🔹 Deneyim Bonusu Nedir",
         "initialPenalty": "• Başlangıçta tüm küplerde -18.9% ceza vardır",
-        "bonusGrowth": "• Her 10 gün kaçırmadan — +2.7%",
-        "maxBonus": "• Maksimum +97.2%'ye ulaşabilirsiniz",
+        "bonusGrowth": "• Her 24 saatte ping yaptığınızda bonus alırsınız — +2.7%",
+        "maxBonus": "• Maksimum +97.2%'ye ulaşabilirsiniz + nadirlik bonusları da sayılır",
         "miss10Days": "• 10 günden fazla kaçırırsanız — bonus artmaz",
         "miss20Days": "• 20+ gün kaçırırsanız — bonus -18.9%'a sıfırlanır"
       },
@@ -285,9 +306,9 @@
         "title": "🔹 Nasıl Yakılır",
         "goToBurn": "• Burn bölümüne gidin",
         "chooseCube": "• Küp ve bekleme süresini seçin:",
-        "time12h": "- 12 saat → oyuncuya %60",
-        "time24h": "- 24 saat → %70",
-        "time48h": "- 48 saat → %80",
+        "time12h": "- 12 dakika → oyuncuya %50",
+        "time24h": "- 60 dakika → %70",
+        "time48h": "- 255 dakika → %80",
         "restSplit": "• Geri kalanı havuz ve kalıcı yakma arasında bölünür (resmi ölü cüzdana gider)",
         "claim": "• Seçilen süre sonra gidip Claim'e basın — CRAA cüzdanınıza gelecek"
       },
@@ -295,7 +316,7 @@
         "title": "🔹 Küp Nasıl Canlandırılır (Breed)",
         "goToBreed": "• Breed bölümüne gidin",
         "choose2Cubes": "• 2 canlı küp seçin (yıldızları olan ve soğuma süresinde olmayan)",
-        "payCRAA": "• CRAA ödeyin (pazar minimum fiyatının %8'i, sürekli güncellenir)",
+        "payCRAA": "• CRAA ödeyin (pazar minimum fiyatının %10'u, sürekli güncellenir)",
         "randomNFT": "• Mezarlıktan rastgele NFT yeni olarak size geri dönecek, tüm yıldızları ile ama coin olmadan:",
         "bonusReset": "- Bonus sıfırlanır (-18.9%'a geri döner)",
         "starsRestored": "- Yıldızlar geri yüklenir",
@@ -306,7 +327,7 @@
         "pingRewards": "• Ping için CRAA aylık ödül havuzundan gelir",
         "breedReturns": "• Breed'de harcanan CRAA bu havuza geri döner",
         "burnForever": "• Burn'dan CRAA sonsuza kadar yanar",
-        "burnedGoesTo": "• Yakılan her şey özel cüzdan 0x...dead'e gider ve sonsuza kadar kaybolur"
+        "burnedGoesTo": "• Yakılan her şey özel cüzdan 0x...dead ApeChain ağından resmi cüzdan gider ve sonsuza kadar kaybolur"
       },
       "crasFees": {
         "title": "🔹 CRAA Token Ücretleri",
@@ -318,11 +339,11 @@
       "exampleStrategy": {
         "title": "🔹 Strateji Örneği",
         "youHaveThree": "Üç küpünüz var:",
-        "common": "• Common (normal) — ping yapın, bonus her 10 günde %2.7 artarak %97'ye kadar çıkar, sonra durur. NFT satabilir, transfer edebilirsiniz, bonus korunur",
+        "common": "• Common (normal) — ping yapın, bonus her 24 saatte %2.7 artarak %97'ye kadar çıkar, sonra durur. NFT satabilir, transfer edebilirsiniz, bonus korunur",
         "rare": "• Rare — Breed için kullanın veya CRAA biriktirin",
         "mystic": "• Mystic — nadir, daha fazla CRAA getirir, yakmamak daha iyi",
         "playCalmly": "Sakin oynayın:",
-        "pingEvery10Days": "• 10 günde bir giriş yapın ve Ping'e basın",
+        "pingEvery10Days": "• 24 saatte bir giriş yapın ve Ping'e basın",
         "burnWeakCubes": "• Periyodik olarak zayıf küpleri yakın → token alın",
         "reviveDead": "• Veya ölüleri canlandırın — daha nadir olanı alma şansı"
       },
@@ -338,7 +359,7 @@
         "decentralized": "Yakında oyunumuz pazar öz-düzenlemesi ile %100 merkezi olmayan olacak."
       }
     },
-    "gameGuideContent": "🎮 CrazyCube Oyun Rehberi\n\n🔹 Başlangıç\n• CRAA token alın — gas ücretleri ve oyun eylemleri için\n• Marketplace'te CrazyCube NFT satın alın\n\n🔹 Oyun Oynamaya Nasıl Başlanır\n• Ping sekmesine gidin — NFT'lerinizi göreceksiniz\n• Yeni küp için Aktifleştir'e basın — bu ilk Ping'dir, CRAA vermez ama zamanlayıcıyı başlatır\n• Aktifleştirmeden sonra ping yapabilirsiniz (Ping'e basın). Varsayılan olarak 10 günde bir, ödüller birikmeye başlar\n• Her başarılı Ping CRAA getirir — miktar şunlara bağlıdır:\n  - Küp nadirliği (Common, Rare, Mystic, vb.)\n  - Deneyim bonusunuz — 10 günde bir ping kaçırmadan büyür\n  - Ping'ler arasındaki süre (daha fazla dönem geçerse, daha fazla CRAA)\n\n🔹 Deneyim Bonusu Nedir\n• Başlangıçta tüm küpler -18.9% cezaya sahiptir\n• 10 günde bir kaçırmadan — +2.7%\n• Ulaşabileceğiniz maksimum +97.2%\n• 10 günden fazla kaçırırsanız — bonus artmaz\n• 20+ gün kaçırırsanız — bonus -18.9%'a sıfırlanır\n\n🔹 CRAA Nasıl Alınır\n• CRAA hemen cüzdana düşmez, küp içinde birikir (böylece her NFT gerçek değere sahiptir)\n• Toplamak için — küpü yakmanız gerekir (Yak) (küpünüz mezarlık bölümüne gider ve artık size ait değildir, claim bölümünde CRAA coin alırsınız)\n\n🔹 Nasıl Yakılır\n• Yak bölümüne gidin\n• Küp ve bekleme süresini seçin:\n  - 12 saat → %60 oyuncuya\n  - 24 saat → %70\n  - 48 saat → %80\n• Geri kalanı havuz ve kalıcı yakma arasında bölünür (resmi dead wallet'a gider)\n• Seçilen süreden sonra gidin ve Talep Et'e basın — CRAA cüzdanınıza gelecek\n\n🔹 Küp Nasıl Canlandırılır (Çiftleştir)\n• Çiftleştir bölümüne gidin\n• 2 canlı küp seçin (yıldızları olan ve cooldown'da olmayan)\n• CRAA ödeyin (marketplace minimum fiyatının %8'i, sürekli güncellenir)\n• Mezarlıktan rastgele bir NFT yeni olarak size geri dönecek, tüm yıldızlarla ama coin olmadan:\n  - Bonus sıfırlanır (geri -18.9%'a)\n  - Yıldızlar geri yüklenir\n  - Sıfırdan tekrar ping yapabilirsiniz\n\n🔹 Sistemde CRAA Nerede\n• Ping için CRAA aylık ödül havuzundan gelir\n• Çiftleştir için harcanan CRAA bu havuza geri döner\n• Yak'tan gelen CRAA sonsuza dek yanar\n• Yakılan her şey özel cüzdan 0x...dead'e gider ve sonsuza dek kaybolur\n\n🔹 CRAA Token Ücretleri\n• Transferlerde %3 ücret — oyun sözleşmesine gider\n• DEX satışlarında %10 ücret — oyun sözleşmesine gider\n• DEX alımlarında %0 ücret — alımda ücret yok\n• Tüm ücretler oyun ekosistemini ve ödül havuzunu destekler\n\n🔹 Örnek Strateji\nÜç küpünüz var:\n• Common (normal) — ping yapın, bonus 10 günde bir %2.7 büyür %97'ye kadar, sonra durur. Satabilir, NFT transfer edebilir, bonus korunur\n• Rare — Çiftleştir için kullanın veya CRAA biriktirin\n• Mystic — nadir, daha fazla CRAA getirir, yakmamak daha iyi\n\nSakin oynayın:\n• 10 günde bir girin ve Ping'e basın\n• Periyodik olarak zayıf küpleri yakın → token alın\n• Veya ölüleri canlandırın — daha nadir olan için şans alın\n\n💡 İpuçları\nMaksimum kar istiyorsanız — düzenli ping yapın ve nadir küpleri çok erken yakmayın.\n💥 Yakılan tokenlar geri gelmeyecek — bu kalan CRAA'nın değerini artırır.\n\n🚀 Vizyonumuz\nPlanlarımız 1-2 ay içinde oyunu ayarlamak ve NFT ve token sözleşmelerinde admin haklarından vazgeçmek. Sosyal bir deney yapmak ve hiçbir şeyi değiştirme imkanı olmayan tamamen sosyal oyun yaratmak istiyoruz — sadece pazar ve insanlar karar verir.\n\nEkibin CRAA coin şeklinde sözleşmede bonusu yoktur. Bir cüzdan oluşturabilirsiniz, örneğin Rabby cüzdanında 1 dakikada ve oyunumuzu oynayabilirsiniz.\n\nYakında oyunumuz pazar öz-düzenlemesi ile %100 merkezi olmayan olacak."
+    "gameGuideContent": "🎮 CrazyCube Oyun Rehberi\n\n🔹 Başlangıç\n• CRAA token'larını alın — gaz ücretleri ve oyun eylemleri için\n• Marketplace'te CrazyCube NFT'lerini satın alın\n\n🔹 Nasıl Oynamaya Başlanır\n• Ping sekmesine gidin — NFT'lerinizi göreceksiniz\n• Yeni küp için Aktifleştir'e basın — bu ilk Ping'dir, CRAA vermez ama zamanlayıcıyı başlatır\n• Aktifleştirmeden sonra ping yapabilirsiniz (Ping'e basın). Varsayılan olarak 24 saatte bir, ödüller birikmeye başlar\n• Her başarılı Ping CRAA getirir — miktar şunlara bağlıdır:\n  - Küp nadirliği (Common, Rare, Mystic, vb.)\n  - Deneyim bonusunuz — 24 saatte bir, ping kaçırmadan büyür\n  - Ping'ler arasındaki süre (daha fazla dönem geçtiyse, daha fazla CRAA)\n\n🔹 Deneyim Bonusu Nedir\n• Başlangıçta tüm küpler -18.9% cezaya sahiptir\n• 24 saatte bir ping yaptığınızda bonus alırsınız — +2.7%\n• Ulaşabileceğiniz maksimum +97.2% + nadirlik bonusları da sayılır\n• Ping'leri kaçırırsanız — bonus artmayacak\n• Ping'leri kaçırırsanız — bonus -18.9%'e sıfırlanır\n\n🔹 CRAA Nasıl Alınır\n• CRAA hemen cüzdana düşmez, küp içinde birikir (böylece her NFT gerçek değere sahiptir)\n• Toplamak için — küpü yakmanız gerekir (Yak) (küpünüz mezarlık bölümüne gider ve artık size ait değildir, claim bölümünde CRAA coin'leri alırsınız)\n\n🔹 Nasıl Yakılır\n• Yak bölümüne gidin\n• Küp ve bekleme süresini seçin:\n  - 12 dakika → %50 oyuncuya\n  - 60 dakika → %70\n  - 255 dakika → %80\n• Geri kalanı havuz ve kalıcı yakma arasında bölünür (resmi ölü cüzdana gider)\n• Seçilen süreden sonra gidin ve Talep Et'e basın — CRAA cüzdanınıza gelecek\n\n🔹 Küp Nasıl Canlandırılır (Üretim)\n• Üretim bölümüne gidin\n• 2 canlı küp seçin (yıldızları olan ve bekleme süresinde olmayan)\n• CRAA ödeyin (marketplace minimum fiyatının %10'u, sürekli güncellenir)\n• Mezarlıktan rastgele bir NFT yeni olarak size geri dönecek, tüm yıldızlarla ama coin'siz:\n  - Bonus sıfırlanır (geri -18.9%'e)\n  - Yıldızlar geri yüklenir\n  - Sıfırdan tekrar ping yapabilirsiniz\n\n🔹 Sistemde CRAA Nerede\n• Ping için CRAA aylık ödül havuzundan gelir\n• Üretimde harcanan CRAA bu havuza geri döner\n• Yakma'dan CRAA sonsuza kadar yanar\n• Yakılan her şey özel cüzdan 0x...dead'e gider ve sonsuza kadar kaybolur\n\n🔹 CRAA Token Ücretleri\n• Transferlerde %3 ücret — oyun sözleşmesine gider\n• DEX satışlarında %10 ücret — oyun sözleşmesine gider\n• DEX alımlarında %0 ücret — alırken ücret yok\n• Tüm ücretler oyun ekosistemini ve ödül havuzunu destekler\n\n🔹 Örnek Strateji\nÜç küpünüz var:\n• Common (normal) — ping yapın, bonus 24 saatte bir %2.7 büyür, %97'ye kadar, sonra durur. Satabilir, NFT transfer edebilirsiniz, bonus korunur ve NFT'deki kilitli coin'ler de korunur\n• Rare — Üretim için kullanın veya CRAA biriktirin\n• Mystic — nadir, daha fazla CRAA getirir, yakmamak daha iyi\n\nSakin oynayın:\n• 24 saatte bir giriş yapın ve Ping'e basın\n• Periyodik olarak zayıf küpleri yakın → token alın\n• Veya ölüleri canlandırın — daha nadir olan için şans alın\n\n💡 İpuçları\nMaksimum kar istiyorsanız — düzenli ping yapın ve nadir küpleri çok erken yakmayın.\n💥 Yakılan tokenlar geri gelmeyecek — bu kalan CRAA'nın değerini artırır.\n\n🚀 Vizyonumuz\n1-2 ay içindeki planlarımız oyun oynanışını ayarlamak ve NFT ve token sözleşmelerindeki yönetici haklarından vazgeçmektir. Sosyal bir deney yapmak ve hiçbir şeyi değiştirme imkanı olmayan tamamen sosyal oyun oynanışı yaratmak istiyoruz — sadece pazar ve insanlar karar verir.\n\nEkibin sözleşmede CRAA coin şeklinde bonusu yok. Bir cüzdan oluşturabilirsiniz, örneğin Rabby cüzdanında 1 dakikada oluşturun ve oyunumuzu oynayın.\n\nYakında oyunumuz %100 merkezi olmayan pazar öz düzenlemesi ile olacak. Ayrıca planlarda CRAA token'ları Solana blockchain'ine aktarılabilecek ve ticareti yapılabilecek, bu coin'i özellikle değerli yapacak, ayrıca NFT'ler de Solana blockchain'ine aktarılabilecek ve bildiğiniz gibi Solana blockchain'inde hem coin hem de NFT'lerde büyük işlemler var."
   },
   "tabs": {
     "breed": "Çiftleştir",
@@ -363,7 +384,7 @@
   },
   "ping": {
     "title": "NFT Ping",
-    "description": "CRAAA token kazanmak için NFT'nizi her 10 günde bir pinleyin! Küplerinizi aktive edin ve ödülleri biriktirin, maksimum 30 gün biriktirme yapabilirsiniz.",
+          "description": "CRAA token kazanmak için NFT'nizi her 24 saatte bir pinleyin! Küplerinizi aktive edin ve ödülleri biriktirin, maksimum 30 gün biriktirme yapabilirsiniz.",
     "connectWallet": "Küplerinizi görmek için cüzdan bağlayın",
     "noNFTs": "CRAAzyCube NFT bulunamadı.",
     "loadingNFTs": "NFT'ler yükleniyor...",
@@ -487,12 +508,12 @@
       "timeLabel": "Süre:",
       "burn": {
         "title": "NFT Yak",
-        "time": "12/24/48 saat",
+        "time": "12/60/255 dakika",
         "desc": "NFT yak ve ödüller için CRAAA tokenlarını kilitle"
       },
       "graveyard": {
         "title": "Mezarlık",
-        "desc": "Yakılan NFT'ler 48s beklemeli mezarlığa gider"
+        "desc": "Yakılan NFT'ler 24s beklemeli mezarlığa gider"
       },
       "breed": {
         "title": "Çiftleştirme",
@@ -515,7 +536,7 @@
         "desc": "Çeşitli oyun mekanikleri",
         "time": "24s bekleme"
       },
-      "cooldown48": "48s bekleme"
+      "cooldown48": "24s bekleme"
     },
     "roadmap": {
       "title": "🛣️ Merkezi Olmayanlığa Giden Yol",

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useAccount, useReadContract } from 'wagmi';
 import { useSafeContractWrite } from '@/hooks/use-safe-contract-write';
-import crazyCubeUltimateAbi from '@/contracts/abi/CrazyCubeUltimate.json';
+import { nftAbi } from '@/config/abis/nftAbi';
 import { NFT_CONTRACT_ADDRESS, MAIN_CHAIN_ID } from '@/config/wagmi';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -19,7 +19,7 @@ export function ClaimRewardsForm() {
 
   const { data: burnRecord, isLoading: isLoadingRecord } = useReadContract({
     address: NFT_CONTRACT_ADDRESS,
-    abi: crazyCubeUltimateAbi.abi ?? crazyCubeUltimateAbi,
+    abi: nftAbi,
     functionName: 'burnRecords',
     args: tokenId ? [BigInt(tokenId)] : undefined,
     chainId: MAIN_CHAIN_ID,
@@ -37,7 +37,7 @@ export function ClaimRewardsForm() {
     try {
       await writeContract({
         address: NFT_CONTRACT_ADDRESS,
-        abi: crazyCubeUltimateAbi.abi ?? crazyCubeUltimateAbi,
+        abi: nftAbi,
         functionName: 'claimBurnRewards',
         args: [BigInt(tokenId)],
         chainId: MAIN_CHAIN_ID,
@@ -64,22 +64,15 @@ export function ClaimRewardsForm() {
           <Loader2 className='animate-spin' />
         ) : burnRecord &&
           (
-            burnRecord as [string, bigint, bigint, bigint, boolean, number]
-          )[0] !== '0x0000000000000000000000000000000000000000' ? (
+            burnRecord as { lockedAmount: bigint; waitPeriod: bigint; burnTime: bigint; claimed: boolean }
+          ).burnTime > 0 ? (
           <div className='text-sm'>
             <p>
               Total amount:{' '}
               {Number(
                 (
-                  burnRecord as [
-                    string,
-                    bigint,
-                    bigint,
-                    bigint,
-                    boolean,
-                    number,
-                  ]
-                )[1]
+                  burnRecord as { lockedAmount: bigint; waitPeriod: bigint; burnTime: bigint; claimed: boolean }
+                ).lockedAmount
               ) / 1e18}{' '}
               CRA
             </p>
@@ -88,23 +81,16 @@ export function ClaimRewardsForm() {
               {new Date(
                 Number(
                   (
-                    burnRecord as [
-                      string,
-                      bigint,
-                      bigint,
-                      bigint,
-                      boolean,
-                      number,
-                    ]
-                  )[2]
+                    burnRecord as { lockedAmount: bigint; waitPeriod: bigint; burnTime: bigint; claimed: boolean }
+                  ).burnTime
                 ) * 1000
               ).toLocaleString()}
             </p>
             <p>
               Claimed:{' '}
               {(
-                burnRecord as [string, bigint, bigint, bigint, boolean, number]
-              )[4]
+                burnRecord as { lockedAmount: bigint; waitPeriod: bigint; burnTime: bigint; claimed: boolean }
+              ).claimed
                 ? t('status.claimed', 'Yes')
                 : t('status.notClaimed', 'No')}
             </p>

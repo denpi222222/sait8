@@ -31,7 +31,7 @@ class CSPMonitor {
 
     // Log to console in development
     if (process.env.NODE_ENV === 'development') {
-      // Удаляем console.warn для production безопасности
+      // Удаляем console.warn для production безопасностиq
       // console.warn('CSP Violation:', fullViolation);
     } else if (process.env.NODE_ENV === 'production') {
       // Log to external service in production
@@ -129,7 +129,10 @@ class CSPMonitor {
         },
         body: JSON.stringify(violation),
       }).catch(err => {
-        console.error('Failed to send CSP violation to logging service:', err);
+        // Safe error handling for production
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Failed to send CSP violation to logging service:', err);
+        }
       });
     }
   }

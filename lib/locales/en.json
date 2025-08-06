@@ -57,12 +57,12 @@
       "button": "Bridge NFT",
       "guide": {
         "title": "🪄 Resurrection Guide",
-        "intro": "You can bring a cube back from the graveyard by paying a CRAA fee equal to 20% of its current price on OpenSea or Magic Eden.",
+        "intro": "You can bring a cube back from the graveyard by paying a CRAA fee equal to 40% of its current price on OpenSea or Magic Eden.",
         "fee": "The fee is calculated automatically from the latest market price and is permanently burned.",
         "requirement": "To resurrect, select 2 NFTs that have at least 1 star.",
         "rarity": "Star ratings: 1 ⭐ — Common, 2 ⭐ — Uncommon, 3 ⭐ — Rare, 4 ⭐ — Epic, 5 ⭐ — Mythic.",
         "penalty": "After successful resurrection, each selected NFT loses 1 star.",
-        "step1": "1. Approve CRAA spending for the 20% fee.",
+        "step1": "1. Approve CRAA spending for the 40% fee.",
         "step2": "2. Confirm the Bridge transaction — NFT instantly returns to your wallet.",
         "note": "Only 5,000 cubes exist, their number will never change. Burned CRAA goes to dead-wallet; no one can recover it."
       }
@@ -73,10 +73,10 @@
       "button": "Burn NFT",
       "feeBox": {
         "title": "🔥 Burn Fee & Steps",
-        "line1": "• Burn fee is <1>5% of locked CRAA</1> inside the cube.",
+        "line1": "• Burn fee is <1>10% of locked CRAA</1> inside the cube.",
         "line2": "• Burning requires <1>three confirmations</1>:",
         "step1": "1. Give the contract permission to move your NFT.",
-        "step2": "2. Allow CRAA spending for 5% of locked coins.",
+        "step2": "2. Allow CRAA spending for 10% of locked coins.",
         "step3": "3. Confirm final transaction — cube burns, CRAA goes to you.",
         "note": "Make sure you have enough CRAA in your wallet for the fee before starting.",
         "guide": {
@@ -84,15 +84,36 @@
           "intro": "Before burning, MUST ping (once every 7 days) to unlock mined CRAA.",
           "loss": "After burning, NFT is permanently sent to the graveyard. CRAA can be claimed in the rewards section.",
           "step1": "1. Give the contract permission to move your NFT.",
-          "step2": "2. Allow CRAA spending for 5% of locked coins.",
+          "step2": "2. Allow CRAA spending for 10% of locked coins.",
           "step3": "3. Confirm final transaction — cube burns, CRAA goes to you.",
-          "timing": "CRAA arrives after selected delay (12h / 24h / 48h). During this time cube is gray (cooldown).",
-          "note": "Example: 10,000 CRAA locked → fee 500 CRAA (5%). Longer delay = smaller pool share.",
+          "timing": "CRAA arrives after selected delay (12m / 60m / 255m). During this time cube is gray (cooldown).",
+          "note": "Example: 10,000 CRAA locked → fee 1000 CRAA (10%). Longer delay = smaller pool share.",
           "pingLock": "When pinging, CRAA doesn't go to wallet — coins stay locked inside NFT. Can only withdraw by burning.",
           "bridgeNote": "Resurrect NFT from graveyard in 'Bridge' section. Cube count limited to 5000 and never changes. CRAA burned in each action goes to dead-wallet forever — no one can retrieve it.",
           "sellCRAA": "Sell CRAA: <a>Camelot Exchange</a>",
           "fees": "🔹 CRAA Token Fees • 3% fee on transfers — goes to game contract • 10% fee on DEX sales — goes to game contract • 0% fee on DEX purchases — no fee when buying • All fees support the game ecosystem and reward pool",
           "contractAddress": "CRAA Token Contract: 0xBb526D657Cc1Ba772469A6EC96AcB2ed9D2A93e5"
+        },
+        "confirmDialog": {
+          "title": "Burn NFT #{tokenId}",
+          "warning": "⚠️ IMPORTANT: This action is irreversible!",
+          "description": "Your NFT will be permanently burned and sent to graveyard.",
+          "waitPeriod": "Wait period:",
+          "minutes": "minutes",
+          "lockedCRAA": "Locked CRAA:",
+          "fee": "Fee:",
+          "afterBurn": "After burn you get",
+          "poolReceives": "Pool receives:",
+          "burnedForever": "Burned forever:",
+          "transactions": "You will sign 3 transactions:",
+          "transaction1": "1️⃣ Approve CRAA fee",
+          "transaction2": "2️⃣ Approve NFT",
+          "transaction3": "3️⃣ Burn NFT",
+          "yourBalance": "Your CRAA balance:",
+          "cancel": "Cancel",
+          "confirm": "Confirm Burn",
+          "nftEarnings": "🎉 NFT Earnings",
+          "totalLockedAmount": "Total locked CRAA"
         }
       }
     },
@@ -119,15 +140,15 @@
 
     "ping": {
       "title": "Ping NFTs",
-      "description": "Ping your NFTs every 10 days to earn CRAA tokens! Your bonus grows with consistent pinging.",
+      "description": "Ping your NFTs every 24 hours to earn CRAA tokens! Your bonus grows with consistent pinging.",
       "connectWallet": "Connect wallet to view your cubes",
       "noNFTs": "No CrazyCube NFTs found.",
       "sentFor": "Ping sent for",
       "error": "Ping error",
-      "interval": "Ping Interval: 10 days",
-      "bonusGrowth": "Bonus grows +2.7% every 10 days",
-      "maxBonus": "Maximum bonus: +97.2%",
-      "penaltyReset": "Miss 20+ days = bonus resets to -18.9%",
+      "interval": "Ping Interval: 24 hours",
+      "bonusGrowth": "Bonus grows +2.7% every 24 hours",
+      "maxBonus": "Maximum bonus: +97.2% + rarity bonuses also count",
+      "penaltyReset": "Miss pings = bonus resets to -18.9%",
       "activate": "Activate",
       "pingNow": "Ping Now",
       "cooldown": "Cooldown",
@@ -172,7 +193,7 @@
       "title": "Breed NFT (Cubic Love!)",
       "description": "Combine two NFTs to resurrect one from the graveyard! Love is in the air! 💕",
       "button": "Breed NFT",
-      "feeNotice": "20% of current NFT price on OpenSea or Magic Eden",
+      "feeNotice": "40% of current NFT price on OpenSea or Magic Eden",
       "cooldown": "⏳ Cooldown:",
       "needTwoNfts": "Need to select exactly 2 NFTs for breeding",
       "waitingForWallet": "Waiting for wallet confirmation...",
@@ -231,12 +252,12 @@
       "breedSelectedNfts": "Breed Selected NFTs",
       "guide": {
         "title": "🪄 Breeding Guide Click here",
-        "intro": "You can breed a new cube by paying a CRAA fee equal to 20% of its current price on OpenSea or Magic Eden.",
+        "intro": "You can breed a new cube by paying a CRAA fee equal to 40% of its current price on OpenSea or Magic Eden.",
         "fee": "The fee is calculated automatically from the latest market price and is permanently burned.",
         "requirement": "Select any 2 NFTs with at least 1 ⭐ for breeding.",
         "rarity": "Star ratings: 1 ⭐ — Common, 2 ⭐ — Uncommon, 3 ⭐ — Rare, 4 ⭐ — Epic, 5 ⭐ — Legendary, 6 ⭐ — Mythic.",
         "penalty": "Star will be lost!",
-        "step1": "1. Allow CRAA spending for 20% fee.",
+        "step1": "1. Allow CRAA spending for 40% fee.",
         "step2": "2. Confirm breeding transaction — new cube is created, CRAA is burned.",
         "note": "Collection limited to 5,000 cubes; CRAA burns to dead-wallet without recovery possibility.",
         "buyNFT": "Buy NFTs: <a>Magic Eden</a>",
@@ -286,19 +307,19 @@
         "title": "🔹 How to Start Playing",
         "goToPing": "• Go to the Ping tab — you'll see your NFTs",
         "activate": "• For a new cube, press Activate — this is the first Ping, it doesn't give CRAA but starts the timer",
-        "pingAfterActivation": "• After activation, you can ping (click Ping). Default is once every 10 days, rewards start accumulating",
+        "pingAfterActivation": "• After activation, you can ping (click Ping). Default is once every 24 hours, rewards start accumulating",
         "pingRewards": "• Each successful Ping brings CRAA — amount depends on:",
         "rarityFactor": "- Cube rarity (Common, Rare, Mystic, etc.)",
-        "experienceBonus": "- Your experience bonus — grows every 10 days without missing pings",
+        "experienceBonus": "- Your experience bonus — grows every 24 hours, without missing pings",
         "timeFactor": "- Time between pings (if more periods passed, more CRAA)"
       },
       "experienceBonus": {
         "title": "🔹 What is Experience Bonus",
         "initialPenalty": "• Initially all cubes have -18.9% penalty",
-        "bonusGrowth": "• Every 10 days without missing — +2.7%",
-        "maxBonus": "• Maximum you can reach +97.2%",
-        "miss10Days": "• If you miss more than 10 days — bonus won't increase",
-        "miss20Days": "• If you miss 20+ days — bonus resets to -18.9%"
+        "bonusGrowth": "• Every 24 hours when you ping you get bonus — +2.7%",
+        "maxBonus": "• Maximum you can reach +97.2% + rarity bonuses also count",
+        "miss10Days": "• If you miss pings — bonus won't increase",
+        "miss20Days": "• If you miss pings — bonus resets to -18.9%"
       },
       "howToGetCRAA": {
         "title": "🔹 How to Get CRAA",
@@ -309,9 +330,9 @@
         "title": "🔹 How to Burn",
         "goToBurn": "• Go to Burn section",
         "chooseCube": "• Choose cube and waiting time:",
-        "time12h": "- 12 hours → 60% to player",
-        "time24h": "- 24 hours → 70%",
-        "time48h": "- 48 hours → 80%",
+        "time12h": "- 12 minutes → 50% to player",
+        "time24h": "- 60 minutes → 70%",
+        "time48h": "- 255 minutes → 80%",
         "restSplit": "• The rest is split between pool and permanent burning (goes to official dead wallet)",
         "claim": "• After chosen time, go and press Claim — CRAA will come to your wallet"
       },
@@ -319,7 +340,7 @@
         "title": "🔹 How to Revive Cube (Breed)",
         "goToBreed": "• Go to Breed section",
         "choose2Cubes": "• Choose 2 living cubes (that have stars and are not in cooldown)",
-        "payCRAA": "• Pay CRAA (8% of minimum marketplace price, constantly updated)",
+        "payCRAA": "• Pay CRAA (10% of minimum marketplace price, constantly updated)",
         "randomNFT": "• Random NFT from graveyard will return to you as new, with all stars but no coins:",
         "bonusReset": "- Bonus is reset (back to -18.9%)",
         "starsRestored": "- Stars are restored",
@@ -330,7 +351,7 @@
         "pingRewards": "• CRAA for Ping comes from monthly reward pool",
         "breedReturns": "• CRAA spent on Breed returns to this pool",
         "burnForever": "• CRAA from Burn burns forever",
-        "burnedGoesTo": "• Everything burned goes to special wallet 0x...dead and disappears forever"
+        "burnedGoesTo": "• Everything burned goes to special wallet 0x...dead official wallet from ApeChain network and disappears forever"
       },
       "crasFees": {
         "title": "🔹 CRAA Token Fees",
@@ -342,11 +363,11 @@
       "exampleStrategy": {
         "title": "🔹 Example Strategy",
         "youHaveThree": "You have three cubes:",
-        "common": "• Common (regular) — ping it, bonus grows by 2.7% every 10 days up to 97%, then stops. Can sell, transfer NFT, bonus is preserved",
+        "common": "• Common (regular) — ping it, bonus grows by 2.7% every 24 hours up to plus 97%, then stops. Can sell, transfer NFT, bonus is preserved and locked coins in NFT are also preserved",
         "rare": "• Rare — use for Breed or accumulate CRAA",
         "mystic": "• Mystic — rare, brings more CRAA, better not to burn",
         "playCalmly": "Play calmly:",
-        "pingEvery10Days": "• Once every 10 days log in and press Ping",
+        "pingEvery10Days": "• Once every 24 hours log in and press Ping - you can log in once every 7 days coins accumulate, then no",
         "burnWeakCubes": "• Periodically burn weak cubes → get tokens",
         "reviveDead": "• Or revive dead ones — get chance for rarer one"
       },
@@ -359,10 +380,10 @@
         "title": "🚀 Our Vision",
         "plans": "Our plans within 1-2 months are to adjust the gameplay and renounce admin rights on NFT and token contracts. We want to conduct a social experiment and create fully social gameplay where there are no possibilities to change anything — only market and people decide.",
         "noBonuses": "The team has no bonuses in the contract in the form of CRAA coins. You can create a wallet, for example, in Rabby wallet in 1 minute and play our game.",
-        "decentralized": "Soon our game will be 100% decentralized with market self-regulation."
+        "decentralized": "Soon our game will be 100% decentralized with market self-regulation. Also in plans CRAA tokens will be able to be transferred to Solana blockchain and traded, this will make the coin especially valuable, also NFTs will also be able to be transferred to Solana blockchain, and as you know on Solana blockchain there are huge trades both coins and NFTs."
       }
     },
-    "gameGuideContent": "🎮 CrazyCube Game Guide\n\n🔹 Getting Started\n• Get CRAA tokens — for gas fees and game actions\n• Buy CrazyCube NFTs on the marketplace\n\n🔹 How to Start Playing\n• Go to the Ping tab — you'll see your NFTs\n• For a new cube, press Activate — this is the first Ping, it doesn't give CRAA but starts the timer\n• After activation, you can ping (click Ping). Default is once every 10 days, rewards start accumulating\n• Each successful Ping brings CRAA — amount depends on:\n  - Cube rarity (Common, Rare, Mystic, etc.)\n  - Your experience bonus — grows every 10 days without missing pings\n  - Time between pings (if more periods passed, more CRAA)\n\n🔹 What is Experience Bonus\n• Initially all cubes have -18.9% penalty\n• Every 10 days without missing — +2.7%\n• Maximum you can reach +97.2%\n• If you miss more than 10 days — bonus won't increase\n• If you miss 20+ days — bonus resets to -18.9%\n\n🔹 How to Get CRAA\n• CRAA doesn't drop to wallet immediately, but accumulates inside the cube (this way each NFT has real value)\n• To collect — you need to burn the cube (Burn) (your cube goes to graveyard section and no longer belongs to you, you get CRAA coins in the claim section)\n\n🔹 How to Burn\n• Go to Burn section\n• Choose cube and waiting time:\n  - 12 hours → 60% to player\n  - 24 hours → 70%\n  - 48 hours → 80%\n• The rest is split between pool and permanent burning (goes to official dead wallet)\n• After chosen time, go and press Claim — CRAA will come to your wallet\n\n🔹 How to Revive Cube (Breed)\n• Go to Breed section\n• Choose 2 living cubes (that have stars and are not in cooldown)\n• Pay CRAA (8% of minimum marketplace price, constantly updated)\n• Random NFT from graveyard will return to you as new, with all stars but no coins:\n  - Bonus is reset (back to -18.9%)\n  - Stars are restored\n  - Can ping again from scratch\n\n🔹 Where CRAA is in the System\n• CRAA for Ping comes from monthly reward pool\n• CRAA spent on Breed returns to this pool\n• CRAA from Burn burns forever\n• Everything burned goes to special wallet 0x...dead and disappears forever\n\n🔹 CRAA Token Fees\n• 3% fee on transfers — goes to game contract\n• 10% fee on DEX sales — goes to game contract\n• 0% fee on DEX purchases — no fee when buying\n• All fees support the game ecosystem and reward pool\n\n🔹 Example Strategy\nYou have three cubes:\n• Common (regular) — ping it, bonus grows by 2.7% every 10 days up to 97%, then stops. Can sell, transfer NFT, bonus is preserved\n• Rare — use for Breed or accumulate CRAA\n• Mystic — rare, brings more CRAA, better not to burn\n\nPlay calmly:\n• Once every 10 days log in and press Ping\n• Periodically burn weak cubes → get tokens\n• Or revive dead ones — get chance for rarer one\n\n💡 Tips\nWant maximum profit — ping regularly and don't burn rare cubes too early.\n💥 Burned tokens won't return — this increases the value of remaining CRAA.\n\n🚀 Our Vision\nOur plans within 1-2 months are to adjust the gameplay and renounce admin rights on NFT and token contracts. We want to conduct a social experiment and create fully social gameplay where there are no possibilities to change anything — only market and people decide.\n\nThe team has no bonuses in the contract in the form of CRAA coins. You can create a wallet, for example, in Rabby wallet in 1 minute and play our game.\n\nSoon our game will be 100% decentralized with market self-regulation."
+    "gameGuideContent": "🎮 CrazyCube Game Guide\n\n🔹 Getting Started\n• Get CRAA tokens — for gas fees and game actions\n• Buy CrazyCube NFTs on the marketplace\n\n🔹 How to Start Playing\n• Go to the Ping tab — you'll see your NFTs\n• For a new cube, press Activate — this is the first Ping, it doesn't give CRAA but starts the timer\n• After activation, you can ping (click Ping). Default is once every 24 hours, rewards start accumulating\n• Each successful Ping brings CRAA — amount depends on:\n  - Cube rarity (Common, Rare, Mystic, etc.)\n  - Your experience bonus — grows every 24 hours without missing pings\n  - Time between pings (if more periods passed, more CRAA)\n\n🔹 What is Experience Bonus\n• Initially all cubes have -18.9% penalty\n• Every 24 hours when you ping you get bonus — +2.7%\n• Maximum you can reach +97.2% + rarity bonuses also count\n• If you miss pings — bonus won't increase\n• If you miss pings — bonus resets to -18.9%\n\n🔹 How to Get CRAA\n• CRAA doesn't drop to wallet immediately, but accumulates inside the cube (this way each NFT has real value)\n• To collect — you need to burn the cube (Burn) (your cube goes to graveyard section and no longer belongs to you, you get CRAA coins in the claim section)\n\n🔹 How to Burn\n• Go to Burn section\n• Choose cube and waiting time:\n  - 12 minutes → 50% to player\n  - 60 minutes → 70%\n  - 255 minutes → 80%\n• The rest is split between pool and permanent burning (goes to official dead wallet)\n• After chosen time, go and press Claim — CRAA will come to your wallet\n\n🔹 How to Revive Cube (Breed)\n• Go to Breed section\n• Choose 2 living cubes (that have stars and are not in cooldown)\n• Pay CRAA (10% of minimum marketplace price, constantly updated)\n• Random NFT from graveyard will return to you as new, with all stars but no coins:\n  - Bonus is reset (back to -18.9%)\n  - Stars are restored\n  - Can ping again from scratch\n\n🔹 Where CRAA is in the System\n• CRAA for Ping comes from monthly reward pool\n• CRAA spent on Breed returns to this pool\n• CRAA from Burn burns forever\n• Everything burned goes to special wallet 0x...dead and disappears forever\n\n🔹 CRAA Token Fees\n• 3% fee on transfers — goes to game contract\n• 10% fee on DEX sales — goes to game contract\n• 0% fee on DEX purchases — no fee when buying\n• All fees support the game ecosystem and reward pool\n\n🔹 Example Strategy\nYou have three cubes:\n• Common (regular) — ping it, bonus grows by 2.7% every 24 hours up to 97%, then stops. Can sell, transfer NFT, bonus is preserved and locked coins in NFT are also preserved\n• Rare — use for Breed or accumulate CRAA\n• Mystic — rare, brings more CRAA, better not to burn\n\nPlay calmly:\n• Once every 24 hours log in and press Ping\n• Periodically burn weak cubes → get tokens\n• Or revive dead ones — get chance for rarer one\n\n💡 Tips\nWant maximum profit — ping regularly and don't burn rare cubes too early.\n💥 Burned tokens won't return — this increases the value of remaining CRAA.\n\n🚀 Our Vision\nOur plans within 1-2 months are to adjust the gameplay and renounce admin rights on NFT and token contracts. We want to conduct a social experiment and create fully social gameplay where there are no possibilities to change anything — only market and people decide.\n\nThe team has no bonuses in the contract in the form of CRAA coins. You can create a wallet, for example, in Rabby wallet in 1 minute and play our game.\n\nSoon our game will be 100% decentralized with market self-regulation. Also in plans CRAA tokens will be able to be transferred to Solana blockchain and traded, this will make the coin especially valuable, also NFTs will also be able to be transferred to Solana blockchain, and as you know on Solana blockchain there are huge trades both coins and NFTs."
   },
   "swap": {
     "buyCRAA": "Buy CRAA on Camelot",
@@ -584,7 +605,7 @@
       "howItWorks": "How it works",
       "breedingGuide": "Breeding guide",
       "selectTwoNfts": "Select 2 NFTs with at least 1 star",
-      "payFee": "Pay 20% of market price fee",
+      "payFee": "Pay 40% of market price fee",
       "getNewCube": "Get new cube in your collection"
     },
     "burn": {
@@ -850,6 +871,41 @@
         "Automatic balance synchronization"
       ]
     }
+  },
+  "actions": {
+    "title": "📊 Game Actions & Timers",
+    "timeLabel": "Time:",
+    "burn": {
+      "title": "Burn NFT",
+      "time": "12/60/255 minutes",
+      "desc": "Burn NFT and lock CRAA tokens to earn rewards"
+    },
+    "graveyard": {
+      "title": "Graveyard",
+      "desc": "Burned NFTs land in graveyard with 24h cooldown"
+    },
+    "breed": {
+      "title": "Breeding",
+      "desc": "Create new NFTs from graveyard",
+      "note": "After breeding NFT cannot participate in actions"
+    },
+    "ping": {
+      "title": "Ping",
+      "desc": "Activate NFT to earn rewards",
+      "time": "7-day interval",
+      "note": "NFTs accumulate and don't burn!"
+    },
+    "rewards": {
+      "title": "Pool Rewards",
+      "desc": "Get CRAA tokens from reward pool",
+      "time": "30-day interval"
+    },
+    "other": {
+      "title": "Other Actions",
+      "desc": "Various game mechanics",
+      "time": "24h cooldown"
+    },
+    "cooldown48": "24h cooldown"
   },
   "nftInspector": {
     "title": "NFT Cooldown Inspector",

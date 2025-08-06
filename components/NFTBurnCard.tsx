@@ -13,6 +13,16 @@ import {
   Heart,
 } from 'lucide-react';
 import Image from 'next/image';
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from '@/components/ui/alert-dialog';
 
 import {
   AlchemyNFT,
@@ -60,12 +70,13 @@ export default function NFTBurnCard({
   const [step, setStep] = useState<
     'idle' | 'approvingCRAA' | 'approvingNFT' | 'burning'
   >('idle');
-  const [waitHours, setWaitHours] = useState<12 | 24 | 48>(12);
+  const [waitMinutes, setWaitMinutes] = useState<12 | 60 | 255>(12);
   const [burnSplit, setBurnSplit] = useState<{
     playerBps: number;
     poolBps: number;
     burnBps: number;
   }>({ playerBps: 0, poolBps: 0, burnBps: 0 });
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   // Fetch game data on mount and when tokenId changes
   useEffect(() => {
@@ -75,16 +86,16 @@ export default function NFTBurnCard({
       if (!ignore) setGameData(data);
     };
     fetchData();
-    // fetch burn split for current waitHours
+    // fetch burn split for current waitMinutes
     const fetchSplit = async () => {
-      const split = await getBurnSplit(waitHours);
+      const split = await getBurnSplit(waitMinutes);
       if (!ignore) setBurnSplit(split);
     };
     fetchSplit();
     return () => {
       ignore = true;
     };
-  }, [tokenIdDecimal, waitHours]);
+  }, [tokenIdDecimal, waitMinutes]);
 
   // Helpers
   const rarityInfo = (r: number) => ({ color: getColor(r), text: getLabel(r) });
@@ -128,13 +139,13 @@ export default function NFTBurnCard({
       return;
     }
 
-    const fee = calcFee();
+    setDialogOpen(true);
+  };
 
-    const confirm = window.confirm(
-      `🔥 Burn NFT #${tokenIdDecimal}?\n\nLocked CRAA: ${gameData.lockedCRAA}\nFee (${burnFeeBps / 100}%): ${fee} CRAA` +
-        `\n\nYou will not be able to undo this action.`
-    );
-    if (!confirm) return;
+  const confirmBurn = async () => {
+    if (!gameData) return;
+
+    const fee = calcFee();
 
     try {
       setIsProcessing(true);
@@ -151,11 +162,11 @@ export default function NFTBurnCard({
 
       setStep('burning');
       toast({ title: 'Burning NFT', description: `Token #${tokenIdDecimal}` });
-      await burnNFT(tokenIdDecimal, waitHours);
+      await burnNFT(tokenIdDecimal, waitMinutes);
 
       toast({
         title: 'NFT burned',
-        description: `Sent to graveyard. Claim after ${waitHours}h`,
+        description: `Sent to graveyard. Claim after ${waitMinutes} minutes`,
       });
 
       setSelected(false);
@@ -392,19 +403,19 @@ export default function NFTBurnCard({
           {/* Wait period selector */}
           {selected && !gameData?.isInGraveyard && (
             <div className='flex justify-center gap-2 mb-2'>
-              {[12, 24, 48].map(h => (
+              {[12, 60, 255].map(m => (
                 <Button
-                  key={h}
-                  variant={waitHours === h ? 'default' : 'outline'}
+                  key={m}
+                  variant={waitMinutes === m ? 'default' : 'outline'}
                   className={
-                    waitHours === h
+                    waitMinutes === m
                       ? 'px-3 py-1'
                       : 'px-3 py-1 border-orange-500/30'
                   }
-                  onClick={() => setWaitHours(h as 12 | 24 | 48)}
+                  onClick={() => setWaitMinutes(m as 12 | 60 | 255)}
                   disabled={isProcessing}
                 >
-                  {h}h
+                  {m}
                 </Button>
               ))}
             </div>
@@ -435,6 +446,89 @@ export default function NFTBurnCard({
           )}
         </CardContent>
       </Card>
+
+      {/* Confirmation dialog */}
+      {gameData && (
+        <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
+          <AlertDialogContent className='bg-[#2f2b2b]/95 border border-red-500/30 text-gray-100 max-w-md text-[15px]'>
+            <AlertDialogHeader>
+              <AlertDialogTitle className='flex items-center text-red-300 text-lg'>
+                <Flame className='w-5 h-5 mr-2' /> {t('burn.confirmDialog.title', { tokenId: tokenIdDecimal })}
+              </AlertDialogTitle>
+              <div className='space-y-2 text-orange-50'>
+                <div className='bg-yellow-900/30 border border-yellow-500/50 rounded-md p-3 mb-3'>
+                  <div className='text-yellow-200 font-semibold mb-1'>
+                    {t('burn.confirmDialog.warning')}
+                  </div>
+                  <div className='text-yellow-100 text-sm'>
+                    {t('burn.confirmDialog.description')}
+                  </div>
+                </div>
+                <div>
+                  {t('burn.confirmDialog.waitPeriod')}{' '}
+                  <span className='font-medium text-orange-300'>
+                    {waitMinutes} {t('burn.confirmDialog.minutes')}
+                  </span>
+                </div>
+                <div>
+                  {t('burn.confirmDialog.lockedCRAA')}{' '}
+                  <span className='font-mono text-yellow-300'>
+                    {gameData.lockedCRAA && Number(gameData.lockedCRAA) > 0
+                      ? gameData.lockedCRAA
+                      : '0'}{' '}
+                    CRAA
+                  </span>
+                </div>
+                <div>
+                  {t('burn.confirmDialog.fee')}{' '}
+                  <span className='font-mono text-red-300'>
+                    {calcFee()} CRAA
+                  </span>
+                </div>
+                {(() => {
+                  const s = calcShares();
+                  return (
+                    <div className='pt-1 text-xs text-gray-300 space-y-0.5'>
+                      <div className='bg-gray-800/60 border border-green-400/40 rounded-md px-2 py-1 flex justify-between items-center text-base font-semibold text-green-200'>
+                        <span>{t('burn.confirmDialog.afterBurn')}</span>
+                        <span className='font-mono'>{s.user}</span>
+                      </div>
+                      <div>
+                        {t('burn.confirmDialog.poolReceives')}{' '}
+                        <span className='text-orange-300 font-mono'>
+                          {s.pool}
+                        </span>
+                      </div>
+                      <div>
+                        {t('burn.confirmDialog.burnedForever')}{' '}
+                        <span className='text-red-400 font-mono'>
+                          {s.burn} CRAA
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })()}
+                <div className='pt-2 text-xs text-gray-400'>
+                  {t('burn.confirmDialog.transactions')}
+                  <br />
+                  {t('burn.confirmDialog.transaction1')} • {t('burn.confirmDialog.transaction2')} • {t('burn.confirmDialog.transaction3')}
+                </div>
+              </div>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>{t('burn.confirmDialog.cancel')}</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => {
+                  setDialogOpen(false);
+                  confirmBurn();
+                }}
+              >
+                {t('burn.confirmDialog.confirm')}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
     </motion.div>
   );
 }

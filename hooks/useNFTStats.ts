@@ -8,7 +8,6 @@
 import { useState, useEffect } from 'react';
 import { useReadContract } from 'wagmi';
 import { NFT_CONTRACT_ADDRESS, MAIN_CHAIN_ID } from '@/config/wagmi';
-import crazyCubeUltimateAbi from '@/contracts/abi/CrazyCubeUltimate.json';
 import { nftAbi } from '@/config/abis/nftAbi';
 import { formatEther } from 'viem';
 import type { NFTStats } from '@/types/nft';
@@ -48,14 +47,14 @@ export function useNFTStats() {
 
   const { data: graveyardSize } = useReadContract({
     address: gameAddress,
-    abi: crazyCubeUltimateAbi.abi ?? crazyCubeUltimateAbi,
+    abi: nftAbi,
     functionName: 'totalBurned',
     chainId: MAIN_CHAIN_ID,
   });
 
   const { data: burnRewardPool } = useReadContract({
     address: gameAddress,
-    abi: crazyCubeUltimateAbi.abi ?? crazyCubeUltimateAbi,
+    abi: nftAbi,
     functionName: 'burnRewardPool',
     chainId: MAIN_CHAIN_ID,
   });

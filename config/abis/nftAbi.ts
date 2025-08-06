@@ -119,4 +119,146 @@ export const nftAbi = [
     stateMutability: 'view',
     type: 'function',
   },
+  {
+    inputs: [],
+    name: 'getBreedCostCRAA',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'breedCooldown',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'parent1',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'parent2',
+        type: 'uint256',
+      },
+      {
+        internalType: 'bytes32',
+        name: 'randomSeed',
+        type: 'bytes32',
+      },
+    ],
+    name: 'requestBreed',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'tokenId',
+        type: 'uint256',
+      },
+    ],
+    name: 'activateNFT',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'totalBurned',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'burnRewardPool',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'tokenId',
+        type: 'uint256',
+      },
+    ],
+    name: 'burnRecords',
+    outputs: [
+      {
+        components: [
+          {
+            internalType: 'uint256',
+            name: 'lockedAmount',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'waitPeriod',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'burnTime',
+            type: 'uint256',
+          },
+          {
+            internalType: 'bool',
+            name: 'claimed',
+            type: 'bool',
+          },
+        ],
+        internalType: 'struct BurnRecord',
+        name: '',
+        type: 'tuple',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'tokenId',
+        type: 'uint256',
+      },
+    ],
+    name: 'claimBurnRewards',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
 ] as const;

@@ -4,6 +4,9 @@ import type { NextRequest } from 'next/server';
 // In-memory sliding window rate limiter (no external services or keys required)
 const requestTimestamps = new Map<string, number[]>();
 
+// Transaction-specific rate limiting
+const transactionLimits = new Map<string, { burn: number[]; approve: number[] }>();
+
 const botPatterns = [
   /bot/i,
   /crawler/i,
@@ -16,6 +19,16 @@ const botPatterns = [
   /insomnia/i,
 ];
 
+// Rate limiting configuration
+const RATE_LIMITS = {
+  GENERAL: { max: 100, window: 60000 }, // 100 requests per minute
+  BOT: { max: 15, window: 60000 }, // 15 requests per minute for bots
+  TRANSACTION: { 
+    burn: { max: 10, window: 3600000 }, // 10 burns per hour
+    approve: { max: 5, window: 3600000 }, // 5 approves per hour
+  }
+};
+
 export function middleware(request: NextRequest) {
   const ip =
     request.headers.get('x-forwarded-for') ||
@@ -25,8 +38,8 @@ export function middleware(request: NextRequest) {
 
   // Bot detection
   const isBot = botPatterns.some(pattern => pattern.test(userAgent));
-  const limit = isBot ? 15 : 100; // Stricter limit for bots, 100 for users
-  const windowMs = 60 * 1000; // 1 minute
+  const limit = isBot ? RATE_LIMITS.BOT.max : RATE_LIMITS.GENERAL.max;
+  const windowMs = isBot ? RATE_LIMITS.BOT.window : RATE_LIMITS.GENERAL.window;
 
   const now = Date.now();
   const timestamps = requestTimestamps.get(ip) || [];
@@ -42,6 +55,31 @@ export function middleware(request: NextRequest) {
   // Add the current timestamp and update the store
   relevantTimestamps.push(now);
   requestTimestamps.set(ip, relevantTimestamps);
+
+  // Transaction-specific rate limiting for API routes
+  if (request.nextUrl.pathname.startsWith('/api/')) {
+    const transactionType = request.nextUrl.pathname.includes('burn') ? 'burn' : 
+                          request.nextUrl.pathname.includes('approve') ? 'approve' : null;
+    
+    if (transactionType) {
+      const userLimits = transactionLimits.get(ip) || { burn: [], approve: [] };
+      const transactionTimestamps = userLimits[transactionType as keyof typeof userLimits];
+      const limit = RATE_LIMITS.TRANSACTION[transactionType as keyof typeof RATE_LIMITS.TRANSACTION];
+      
+      // Remove old timestamps
+      const recentTimestamps = transactionTimestamps.filter(ts => now - ts < limit.window);
+      
+      if (recentTimestamps.length >= limit.max) {
+        return new NextResponse(`Too many ${transactionType} transactions.`, { status: 429 });
+
+      }
+      
+      // Add current timestamp
+      recentTimestamps.push(now);
+      userLimits[transactionType as keyof typeof userLimits] = recentTimestamps;
+      transactionLimits.set(ip, userLimits);
+    }
+  }
 
   const response = NextResponse.next();
 
