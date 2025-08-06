@@ -25,8 +25,19 @@ import {
 } from '@/utils/formatNumber';
 
 interface BreedableNFTProps {
-  nft: any;
-  gameInfo: any;
+  nft: { 
+    id: { tokenId: string }; 
+    contract: { address: string }; 
+    title: string; 
+    description: string; 
+    media: { gateway: string; thumbnail: string; raw: string; format: string; bytes?: number }[];
+    balance: string;
+    tokenUri: { gateway: string; raw: string };
+    metadata: { name?: string; description?: string; image?: string; attributes?: { trait_type: string; value: unknown }[] };
+    timeLastUpdated?: string;
+    contractMetadata?: unknown;
+  };
+  gameInfo: { canBreed?: boolean; breedCooldown?: number; currentStars?: number; rarity?: number; isActivated?: boolean } | undefined;
   isSelected: boolean;
   onSelect: (tokenId: string) => void;
   disabled: boolean;
@@ -52,7 +63,7 @@ const BreedableNFT = ({
   const canBreed = gameInfo?.canBreed && !disabled;
 
   // Check if NFT has active cooldowns (is newborn or on cooldown)
-  const hasActiveCooldown = gameInfo?.breedCooldown > 0 || !canBreed;
+  const hasActiveCooldown = (gameInfo?.breedCooldown ?? 0) > 0 || !canBreed;
 
   return (
     <motion.div
@@ -73,8 +84,8 @@ const BreedableNFT = ({
         <CardContent className='p-4'>
           <div className='relative'>
             <img
-              src={nft ? getNFTImage(nft) : ''}
-              alt={nft ? getNFTName(nft) : ''}
+              src={nft ? getNFTImage(nft as any) : ''}
+              alt={nft ? getNFTName(nft as any) : ''}
               className='w-full h-32 object-cover rounded-lg mb-3'
             />
 
@@ -107,14 +118,14 @@ const BreedableNFT = ({
             </div>
 
             {/* Cooldown badge */}
-            {gameInfo?.breedCooldown && gameInfo.breedCooldown > 0 && (
+            {gameInfo?.breedCooldown && (gameInfo.breedCooldown ?? 0) > 0 && (
               <CooldownBadge secondsLeft={gameInfo.breedCooldown} />
             )}
           </div>
 
           <div className='space-y-2'>
             <h4 className='font-semibold text-orange-100 text-sm truncate'>
-              {getNFTName(nft)}
+              {getNFTName(nft as any)}
             </h4>
 
             <div className='flex justify-between text-xs'>
@@ -131,10 +142,10 @@ const BreedableNFT = ({
                   <Zap className='w-3 h-3' />
                   Ready to breed
                 </span>
-              ) : gameInfo?.breedCooldown > 0 ? (
+              ) : (gameInfo?.breedCooldown ?? 0) > 0 ? (
                 <span className='text-yellow-400 flex items-center gap-1'>
                   <Clock className='w-3 h-3' />
-                  {formatTimeLeft(gameInfo.breedCooldown)}
+                  {formatTimeLeft(gameInfo?.breedCooldown ?? 0)}
                 </span>
               ) : (
                 <span className='text-red-400 flex items-center gap-1'>

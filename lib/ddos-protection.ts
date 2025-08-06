@@ -75,7 +75,7 @@ class DDoSProtection {
     stats.blockUntil = Date.now() + this.BLOCK_DURATION;
     this.ipStats.set(ip, stats);
 
-    // Удаляем console.error для production безопасности
+    // Удаляем console.error для production безопасностиq
     // console.error(`🚫 DDoS Protection: Blocked IP ${ip} - ${reason} for ${this.BLOCK_DURATION / 1000 / 60} minutes`);
   }
 

@@ -15,7 +15,7 @@ export class ApiError extends Error {
 export interface RequestOptions {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
   headers?: Record<string, string>;
-  body?: { [key: string]: any };
+  body?: { [key: string]: unknown };
   retries?: number;
   retryDelay?: number;
 }
@@ -46,22 +46,24 @@ export async function rpcRequest<T>(
       options.retries || 6
     );
 
-    if (result.error) {
+    const typedResult = result as { error?: { message: string; code?: number }; result?: T };
+    if (typedResult.error) {
       throw new ApiError(
-        `RPC Error: ${result.error.message}`,
-        result.error.code || 500
+        `RPC Error: ${typedResult.error.message}`,
+        typedResult.error.code || 500
       );
     }
 
-    return result.result as T;
+    return typedResult.result as T;
   } catch (error) {
     if (error instanceof ApiError) {
       throw error;
     }
-    throw new ApiError(
-      `Network error: ${(error as Error).message || 'Unknown error'}`,
-      503
-    );
+          const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      throw new ApiError(
+        `Network error: ${errorMessage}`,
+        503
+      );
   }
 }
 
@@ -123,8 +125,8 @@ export async function apiRequest<T>(
       }
 
       return (await response.json()) as T;
-    } catch (error) {
-      lastError = error as Error;
+    } catch (error: unknown) {
+      lastError = error instanceof Error ? error : new Error('Unknown error');
 
       // Don't retry if it's a client error (4xx)
       if (

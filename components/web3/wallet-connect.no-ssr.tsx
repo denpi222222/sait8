@@ -13,12 +13,13 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Wallet, AlertTriangle, Coins, BookOpen, Info, TrendingUp, Shield, ExternalLink } from 'lucide-react';
+import { Wallet, AlertTriangle, Coins, BookOpen, Info, TrendingUp, Shield } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { safeOpen } from '@/lib/safeOpen';
 import { toast } from '@/components/ui/use-toast';
+import { CompactMusicPlayer } from '@/components/CompactMusicPlayer';
 
 // Constants for Camelot
 const CRAA_ADDRESS = process.env.NEXT_PUBLIC_CRAA_ADDRESS || '0xBb526D657Cc1Ba772469A6EC96AcB2ed9D2A93e5';
@@ -372,6 +373,9 @@ export function WalletConnectNoSSR() {
                   </ScrollArea>
                 </DialogContent>
               </Dialog>
+
+              {/* Compact Music Player */}
+              <CompactMusicPlayer />
 
               {/* CRAA Buy Modal */}
               <Dialog open={isSwapOpen} onOpenChange={setIsSwapOpen}>

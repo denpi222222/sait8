@@ -151,7 +151,9 @@ export async function GET(request: NextRequest) {
       totalCount: nfts.length,
       pageKey: null,
     });
-  } catch (e) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.error('Error fetching NFTs:', errorMessage);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 
 import { ArrowLeft, Heart, Clock, Plus, X } from 'lucide-react';
 import { useAlchemyNfts } from '@/hooks/useAlchemyNfts';
+import DOMPurify from 'isomorphic-dompurify';
 import Link from 'next/link';
 import { ParticleEffect } from '@/components/particle-effect';
 import { useMobile } from '@/hooks/use-mobile';
@@ -546,9 +547,11 @@ export default function BreedPage() {
                 <AccordionContent className='text-sm space-y-2 text-pink-200 mt-2 bg-black/90 p-4 rounded-lg border border-pink-500/20'>
                   {mounted ? (
                     <>
-                      <p>
-                        <Trans i18nKey='sections.breed.guide.intro' />
-                      </p>
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: DOMPurify.sanitize(tr('sections.breed.guide.intro', '')),
+                        }}
+                      />
                       <p>
                         <Trans i18nKey='sections.breed.guide.fee' />
                       </p>

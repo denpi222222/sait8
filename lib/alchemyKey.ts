@@ -147,10 +147,10 @@ export const initWagmiClient = (client: object) => {
 
 // Ultra-smart fetch with multi-tier fallback
 export const ultraSmartFetch = async (
-  requestData: { [key: string]: any },
+  requestData: { [key: string]: unknown },
   options: RequestInit = {},
   maxRetries = 6
-): Promise<any> => {
+): Promise<unknown> => {
   let attempt = 0;
   let lastError: Error | null = null;
 
@@ -162,15 +162,19 @@ export const ultraSmartFetch = async (
       if (endpoint.type === 'wagmi' && wagmiPublicClient) {
         // Handle different request types for wagmi
         if (requestData.method === 'eth_getBalance') {
+          const params = requestData.params as string[];
           return await wagmiPublicClient.getBalance({
-            address: requestData.params[0],
+            address: params[0] as `0x${string}`,
           });
         }
         if (requestData.method === 'eth_call') {
-          return await wagmiPublicClient.call({
-            to: requestData.params[0].to,
-            data: requestData.params[0].data,
-          });
+          const params = requestData.params as Array<{ to: string; data: string }>;
+          if (params[0] && params[0].to && params[0].data) {
+            return await wagmiPublicClient.call({
+              to: params[0].to as `0x${string}`,
+              data: params[0].data as `0x${string}`,
+            });
+          }
         }
         if (requestData.method === 'eth_blockNumber') {
           return await wagmiPublicClient.getBlockNumber();

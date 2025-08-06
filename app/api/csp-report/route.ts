@@ -14,7 +14,9 @@ export async function POST(request: NextRequest) {
     handleCSPReport(body, ip, userAgent);
 
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.error('CSP report error:', errorMessage);
     return NextResponse.json(
       { error: 'Failed to process CSP report' },
       { status: 400 }

@@ -508,8 +508,9 @@ export const useClaimReward = (tokenId: string, onSuccess?: () => void) => {
         functionName: 'claimBurnRewards',
         args: [BigInt(tokenId)],
       });
-    } catch (e: any) {
-      toast.error(e.message || 'Transaction failed', {
+    } catch (e: unknown) {
+      const errorMessage = e instanceof Error ? e.message : 'Transaction failed';
+      toast.error(errorMessage, {
         id: `claim-${tokenId}`,
       });
       // Don't block NFT if transaction fails

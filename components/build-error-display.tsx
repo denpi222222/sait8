@@ -21,7 +21,10 @@ export function BuildErrorDisplay() {
           setIsVisible(true);
         }
       }
-    } catch (e) {}
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      console.error('Build error display error:', errorMessage);
+    }
   }, []);
 
   const clearErrors = () => {

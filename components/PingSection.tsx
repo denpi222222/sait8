@@ -18,10 +18,18 @@ import { useToast } from '@/hooks/use-toast';
 import { getRarityColor as rarityColor, getRarityLabel } from '@/lib/rarity';
 import { useTranslation } from 'react-i18next';
 import { useNetwork } from '@/hooks/use-network';
+import DOMPurify from 'isomorphic-dompurify';
 
 interface PingableNFTProps {
   nft: { id: { tokenId: string } };
-  gameInfo?: { [key: string]: any } | undefined;
+  gameInfo?: { 
+    canPing?: boolean; 
+    isActivated?: boolean; 
+    rarity?: number; 
+    currentStars?: number; 
+    lockedCRAAFormatted?: string;
+    [key: string]: unknown 
+  } | undefined;
   onPing: (tokenId: string) => void;
   isLoading: boolean;
 }
@@ -93,7 +101,7 @@ const PingableNFT = ({
               <Badge className='bg-yellow-500/80 text-black font-bold text-xs'>
                 ⭐ {gameInfo?.currentStars || 0}
               </Badge>
-              {gameInfo && parseFloat(gameInfo.lockedCRAAFormatted) > 0 && (
+              {gameInfo && gameInfo.lockedCRAAFormatted && parseFloat(gameInfo.lockedCRAAFormatted) > 0 && (
                 <Badge className='bg-green-500/80 text-white text-xs'>
                   💰{' '}
                   {new Intl.NumberFormat('en-US', {
@@ -125,7 +133,7 @@ const PingableNFT = ({
                   ? new Intl.NumberFormat('en-US', {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
-                    }).format(parseFloat(gameInfo.lockedCRAAFormatted))
+                    }).format(parseFloat(gameInfo.lockedCRAAFormatted || '0'))
                   : '0.00'}
               </span>
             </div>
@@ -156,7 +164,7 @@ const PingableNFT = ({
                   )}
                   Ping NFT
                 </Button>
-              ) : gameInfo?.pingCooldown && gameInfo.pingCooldown > 0 ? (
+              ) : gameInfo?.pingCooldown && typeof gameInfo.pingCooldown === 'number' && gameInfo.pingCooldown > 0 ? (
                 <Button disabled className='w-full text-xs py-2'>
                   <Clock className='w-3 h-3 mr-2' />
                   {formatTimeLeft(gameInfo.pingCooldown)}
@@ -207,7 +215,7 @@ export const PingSection = () => {
     } catch (error: any) {
       toast({
         title: 'Ping Failed',
-        description: error.message || 'Failed to ping NFT',
+        description: DOMPurify.sanitize(error.message || 'Failed to ping NFT'),
         variant: 'destructive',
       });
     }
@@ -316,7 +324,7 @@ export const PingSection = () => {
               <PingableNFT
                 key={nft.id.tokenId}
                 nft={nft}
-                gameInfo={gameInfo}
+                gameInfo={gameInfo as any}
                 onPing={handlePing}
                 isLoading={isWritePending || isTxLoading}
               />

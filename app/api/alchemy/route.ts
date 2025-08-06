@@ -49,7 +49,9 @@ export async function POST(req: Request) {
 
     const data = await res.json();
     return NextResponse.json(data);
-  } catch (error) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.error('Alchemy API error:', errorMessage);
     return new NextResponse('Internal Server Error', { status: 500 });
   }
 }

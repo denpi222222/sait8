@@ -11,8 +11,11 @@ import { NFT_CONTRACT_ADDRESS, TOKEN_CONTRACT_ADDRESS, GAME_CONTRACT_ADDRESS } f
  */
 export default function EthereumGuard() {
   useEffect(() => {
-    if (typeof window === 'undefined' || !(window as any).ethereum) return;
-    const eth: any = (window as any).ethereum;
+    if (typeof window === 'undefined' || !(window as { ethereum?: unknown }).ethereum) return;
+    const eth = (window as { ethereum?: unknown }).ethereum as { 
+      request?: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
+      __crazycube_guard_installed?: boolean;
+    };
 
     if (eth.__crazycube_guard_installed) return;
     eth.__crazycube_guard_installed = true;
@@ -26,7 +29,7 @@ export default function EthereumGuard() {
     const originalRequest = eth.request?.bind(eth);
     if (!originalRequest) return;
 
-    eth.request = async (args: { method: string; params?: any[] }) => {
+    eth.request = async (args: { method: string; params?: unknown[] }) => {
       try {
         const method = (args?.method || '').toLowerCase();
         const params = args?.params || [];
@@ -38,7 +41,7 @@ export default function EthereumGuard() {
 
         // 2) Inspect raw transactions
         if (method === 'eth_sendtransaction' && params[0]) {
-          const tx = params[0];
+          const tx = params[0] as { to?: string; value?: string };
           const to = (tx.to || '').toLowerCase();
           const valueHex = tx.value || '0x0';
           const value = parseInt(valueHex, 16);

@@ -11,7 +11,7 @@ export async function getUserBalance(walletAddress: string): Promise<number> {
 // Get user NFTs
 export async function getUserNFTs(
   walletAddress: string
-): Promise<{ [key: string]: any }[]> {
+): Promise<{ [key: string]: unknown }[]> {
   // This would be replaced with actual blockchain call
   throw new Error(
     'Not implemented - this function requires blockchain integration'
@@ -31,7 +31,7 @@ export async function burnNFT(
 // Bridge NFT (get random NFT from graveyard)
 export async function bridgeNFT(
   walletAddress: string
-): Promise<{ success: boolean; nft: { [key: string]: any } }> {
+): Promise<{ success: boolean; nft: { [key: string]: unknown } }> {
   // This would be replaced with actual blockchain call
   throw new Error(
     'Not implemented - this function requires blockchain integration'

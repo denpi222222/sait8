@@ -591,7 +591,9 @@ export function CubeAnimation() {
           src={currentTrack?.url || musicTracks[0]?.url || ''}
           loop
           preload='auto'
-          onError={() => {
+          onError={(error: unknown) => {
+            const errorMessage = error instanceof Error ? error.message : 'Audio error';
+            console.error('Audio error:', errorMessage);
             const fallbackUrl = '';
             // Switch to fallback only if we're not already using it to avoid endless loops
             if (audioRef.current && audioRef.current.src !== fallbackUrl) {
@@ -600,7 +602,10 @@ export function CubeAnimation() {
               audioRef.current
                 .play()
                 .then(() => {})
-                .catch(() => {});
+                .catch((playError: unknown) => {
+                  const playErrorMessage = playError instanceof Error ? playError.message : 'Play error';
+                  console.error('Play error:', playErrorMessage);
+                });
             }
           }}
         />

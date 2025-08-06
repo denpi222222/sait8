@@ -21,6 +21,7 @@ import {
 } from '@/components/ui/accordion';
 import { usePerformanceContext } from '@/hooks/use-performance-context';
 import { useMobile } from '@/hooks/use-mobile';
+import DOMPurify from 'isomorphic-dompurify';
 
 const FireAnimation = dynamic(() => import('@/components/fire-animation'), {
   ssr: false,
@@ -129,9 +130,11 @@ export default function BurnPage() {
                   {t('sections.burn.feeBox.guide.title')}
                 </AccordionTrigger>
                 <AccordionContent className='text-sm space-y-2 text-orange-200 mt-2 bg-black/90 p-4 rounded-lg border border-orange-500/20'>
-                  <p>
-                    <Trans i18nKey='sections.burn.feeBox.guide.intro' />
-                  </p>
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(t('sections.burn.feeBox.guide.intro')),
+                    }}
+                  />
                   <p>
                     <Trans i18nKey='sections.burn.feeBox.guide.pingLock' />
                   </p>

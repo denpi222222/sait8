@@ -79,10 +79,10 @@ export default function CRATokenInfo() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [debugInfo, setDebugInfo] = useState<{
-    priceData: any;
-    subgraphData: any;
-    tokenStats: any;
-    recentBurns: any[];
+    priceData: unknown;
+    subgraphData: unknown;
+    tokenStats: unknown;
+    recentBurns: unknown[];
   } | null>(null);
 
   // Load CRAA token data
@@ -123,9 +123,15 @@ export default function CRATokenInfo() {
                 volumeChange24h: 0,
               } as any;
             }
-          } catch (dsErr) {}
+          } catch (dsErr: unknown) {
+          const errorMessage = dsErr instanceof Error ? dsErr.message : 'Unknown error';
+          console.error('DexScreener error:', errorMessage);
         }
-      } catch (priceError) {}
+        }
+              } catch (priceError: unknown) {
+          const errorMessage = priceError instanceof Error ? priceError.message : 'Unknown error';
+          console.error('Price error:', errorMessage);
+        }
 
       // 2. Query subgraph for game data
       let subgraphData = null;
@@ -153,7 +159,10 @@ export default function CRATokenInfo() {
         });
 
         subgraphData = await subgraphRes.json();
-      } catch (subgraphError) {}
+              } catch (subgraphError: unknown) {
+          const errorMessage = subgraphError instanceof Error ? subgraphError.message : 'Unknown error';
+          console.error('Subgraph error:', errorMessage);
+        }
 
       // 2.2 Get burned CRAA (from cache or on-chain)
       let burnedWei: bigint = 0n;
@@ -214,7 +223,10 @@ export default function CRATokenInfo() {
             );
           }
         }
-      } catch (burnErr) {}
+              } catch (burnErr: unknown) {
+          const errorMessage = burnErr instanceof Error ? burnErr.message : 'Unknown error';
+          console.error('Burn error:', errorMessage);
+        }
 
       // 3. Process and merge data
       const tokenStats = subgraphData?.data?.tokenStat;

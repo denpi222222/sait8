@@ -42,7 +42,10 @@ export function ClaimRewardsForm() {
         args: [BigInt(tokenId)],
         chainId: MAIN_CHAIN_ID,
       });
-    } catch (e) {}
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Claim failed';
+      console.error('Claim error:', errorMessage);
+    }
   });
 
   if (!address) return <p>Please connect your wallet.</p>;

@@ -25,6 +25,7 @@ import { useNetwork } from '@/hooks/use-network';
 import React from 'react';
 import { useMobile } from '@/hooks/use-mobile';
 import { SECURITY_CONFIG, validateChainId, validateContractAddress } from '@/config/security';
+import DOMPurify from 'isomorphic-dompurify';
 
 interface BurnCardProps {
   nft: NFT;
@@ -408,7 +409,7 @@ export const BurnCard = React.memo(function BurnCard({
       setData(updated);
     } catch (error: unknown) {
       const errorMessage =
-        error instanceof Error ? error.message : 'Failed to burn NFT';
+        error instanceof Error ? DOMPurify.sanitize(error.message) : 'Failed to burn NFT';
       toast({
         title: 'Error',
         description: errorMessage,

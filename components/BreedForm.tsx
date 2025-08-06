@@ -12,9 +12,8 @@ import { Loader2 } from 'lucide-react';
 import { useGraveyardAvailability } from '@/hooks/useGraveyardAvailability';
 import { formatEther } from 'viem';
 import { useNetwork } from '@/hooks/use-network';
-import { useTranslation } from 'react-i18next';
+import DOMPurify from 'isomorphic-dompurify';
 import React from 'react';
-import { useMobile } from '@/hooks/use-mobile';
 import { SECURITY_CONFIG, validateChainId, validateContractAddress } from '@/config/security';
 import { useToast } from '@/components/ui/use-toast';
 
@@ -44,12 +43,7 @@ export function BreedForm() {
     chainId: MAIN_CHAIN_ID,
   });
 
-  const { data: breedCooldown } = useReadContract({
-    address: NFT_CONTRACT_ADDRESS,
-    abi: nftAbi,
-    functionName: 'breedCooldown',
-    chainId: MAIN_CHAIN_ID,
-  });
+  // Removed unused breedCooldown to fix linter error
 
   const {
     writeContract,
@@ -83,6 +77,7 @@ export function BreedForm() {
       return;
     }
 
+
     try {
       await writeContract({
         address: NFT_CONTRACT_ADDRESS,
@@ -91,7 +86,11 @@ export function BreedForm() {
         args: [BigInt(parent1!), BigInt(parent2!), bytes32Random()],
         chainId: MAIN_CHAIN_ID,
       });
-    } catch (e) {}
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? DOMPurify.sanitize(error.message) : 'Breeding failed';
+      console.error('Breeding error:', errorMessage);
+    }
+
   });
 
   if (!address) return <p>Please connect your wallet.</p>;
@@ -159,7 +158,7 @@ export function BreedForm() {
                 </p>
               )}
               {breedError && (
-                <p className='text-red-500 text-sm'>{breedError.message}</p>
+                <p className='text-red-500 text-sm'>{DOMPurify.sanitize(breedError.message)}</p>
               )}
               <Button
                 disabled={!isApeChain || !isReady || isBreeding}
