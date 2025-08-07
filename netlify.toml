@@ -4,6 +4,10 @@
 
 [build.environment]
   NODE_VERSION = "18"
+  NODE_ENV = "production"
+  NEXT_TELEMETRY_DISABLED = "1"
+  NEXTAUTH_URL = "https://your-domain.netlify.app"
+  NEXTAUTH_SECRET = "your-secret-here"
 
 # MAXIMUM SECURITY FOR BLOCKCHAIN DAPPS - 2025 STANDARDS
 # Based on OWASP Top 10 2021 and modern Web3 security practices
@@ -107,9 +111,4 @@
   to = "/404"
   status = 404
 
-# Environment variables for security
-[build.environment]
-  NODE_ENV = "production"
-  NEXT_TELEMETRY_DISABLED = "1"
-  NEXTAUTH_URL = "https://your-domain.netlify.app"
-  NEXTAUTH_SECRET = "your-secret-here"
+
