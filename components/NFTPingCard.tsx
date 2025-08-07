@@ -40,6 +40,7 @@ import { usePerformanceContext } from '@/hooks/use-performance-context';
 import { useNetwork } from '@/hooks/use-network';
 import { cn } from '@/lib/utils';
 import { SECURITY_CONFIG, validateChainId, validateContractAddress } from '@/config/security';
+import DOMPurify from 'isomorphic-dompurify';
 
 // Use address from config instead of hardcoding
 const GAME_ADDR = apeChain.contracts.gameProxy.address;
@@ -305,9 +306,17 @@ function NFTPingCardComponent({
       setGameData(updated);
       if (onActionComplete) onActionComplete();
     } catch (e: any) {
+      // CRITICAL: XSS Protection - sanitize error message
+      const sanitizedMessage = e?.message 
+        ? DOMPurify.sanitize(e.message, { 
+            ALLOWED_TAGS: [], 
+            ALLOWED_ATTR: [] 
+          })
+        : 'Unknown error occurred';
+      
       toast({
         title: t('ping.error', 'Ping error'),
-        description: e?.message,
+        description: sanitizedMessage,
         variant: 'destructive',
       });
     } finally {

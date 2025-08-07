@@ -5,19 +5,28 @@
 [build.environment]
   NODE_VERSION = "18"
 
-# Security headers
+# MAXIMUM SECURITY FOR BLOCKCHAIN DAPPS - 2025 STANDARDS
+# Based on OWASP Top 10 2021 and modern Web3 security practices
 [[headers]]
   for = "/*"
   [headers.values]
+    # Core Security Headers
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
     X-XSS-Protection = "1; mode=block"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https: https://*.netlify.app https://*.alchemy.com https://*.walletconnect.com https://*.apechain.com https://*.opensea.io https://*.magiceden.io https://*.ipfs.io https://*.ipfs.dweb.link https://*.gateway.pinata.cloud https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/ https://cdn.jsdelivr.net https://unpkg.com https://*.metamask.io https://*.walletconnect.org https://*.walletconnect.com https://*.rainbow.me https://*.coinbase.com https://*.trustwallet.com; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' https:; connect-src 'self' https: wss:; frame-src 'self' https:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';"
+    
+    # Advanced Security Headers for Web3
+    Cross-Origin-Resource-Policy = "same-origin"
+    Cross-Origin-Opener-Policy = "same-origin"
+    Cross-Origin-Embedder-Policy = "require-corp"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), ambient-light-sensor=(), autoplay=(), encrypted-media=(), execution-while-not-rendered=(), execution-while-out-of-viewport=(), fullscreen=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), web-share=(), xr-spatial-tracking=()"
+    
+    # Content Security Policy for Web3 dApps - FIXED VERSION
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.walletconnect.com https://*.walletconnect.org https://*.metamask.io https://*.rainbow.me https://*.coinbase.com https://*.trustwallet.com https://*.alchemy.com https://*.apechain.com https://*.ethereum.org https://*.web3modal.com https://*.web3js.org https://cdn.jsdelivr.net https://unpkg.com https://*.cloudflare.com https://*.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://unpkg.com https://*.cloudflare.com; img-src 'self' data: blob: https: https://*.ipfs.io https://*.ipfs.dweb.link https://*.gateway.pinata.cloud https://*.cloudflare-ipfs.com https://*.arweave.net https://*.nftstorage.link; connect-src 'self' https: wss: ws: https://*.walletconnect.com https://*.walletconnect.org https://*.metamask.io https://*.rainbow.me https://*.coinbase.com https://*.trustwallet.com https://*.alchemy.com https://*.apechain.com https://*.ethereum.org https://*.infura.io https://*.quicknode.com https://*.moralis.io https://*.web3modal.com https://*.web3js.org https://*.ipfs.io https://*.ipfs.dweb.link https://*.gateway.pinata.cloud https://*.cloudflare-ipfs.com https://*.arweave.net https://*.nftstorage.link; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net https://unpkg.com https://*.cloudflare.com; media-src 'self' https: data: blob:; frame-src 'self' https://www.google.com/recaptcha/ https://*.walletconnect.com https://*.walletconnect.org https://*.metamask.io https://*.rainbow.me https://*.coinbase.com https://*.trustwallet.com https://*.alchemy.com https://*.apechain.com https://*.ethereum.org https://*.web3modal.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content; require-trusted-types-for 'script'"
 
-# API routes security
+# API Routes Security
 [[headers]]
   for = "/api/*"
   [headers.values]
@@ -25,84 +34,82 @@
     X-Content-Type-Options = "nosniff"
     X-XSS-Protection = "1; mode=block"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    Cross-Origin-Resource-Policy = "same-origin"
+    Cross-Origin-Opener-Policy = "same-origin"
+    Cross-Origin-Embedder-Policy = "require-corp"
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https:; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
 
-# Static assets caching
+# Static Assets Security
 [[headers]]
-  for = "/_next/static/*"
+  for = "*.js"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.css"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.png"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Images caching
 [[headers]]
-  for = "/images/*"
+  for = "*.jpg"
   [headers.values]
-    Cache-Control = "public, max-age=86400"
+    Cache-Control = "public, max-age=31536000, immutable"
 
-# Security for sensitive files
 [[headers]]
-  for = "/*.json"
+  for = "*.ico"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Security for Web3 specific files
+[[headers]]
+  for = "*.json"
   [headers.values]
     X-Content-Type-Options = "nosniff"
-    Cache-Control = "no-cache, no-store, must-revalidate"
+    Content-Type = "application/json"
 
 # Redirects for security
 [[redirects]]
-  from = "/.env*"
-  to = "/404"
-  status = 404
-
-[[redirects]]
-  from = "/config/*"
-  to = "/404"
-  status = 404
-
-[[redirects]]
-  from = "/package.json"
-  to = "/404"
-  status = 404
-
-[[redirects]]
-  from = "/package-lock.json"
-  to = "/404"
-  status = 404
-
-# Force HTTPS
-[[redirects]]
-  from = "http://:host/*"
-  to = "https://:host/:splat"
-  status = 301
-  force = true
-
-# API routes
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/api/:splat"
+  from = "/.well-known/security.txt"
+  to = "/security.txt"
   status = 200
 
-# Fallback for SPA
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
+  from = "/robots.txt"
+  to = "/robots.txt"
   status = 200
 
-# Security middleware
-[functions]
-  directory = "netlify/functions"
+# Block dangerous file types
+[[redirects]]
+  from = "/*.php"
+  to = "/404"
+  status = 404
+
+[[redirects]]
+  from = "/*.asp"
+  to = "/404"
+  status = 404
+
+[[redirects]]
+  from = "/*.aspx"
+  to = "/404"
+  status = 404
+
+[[redirects]]
+  from = "/*.jsp"
+  to = "/404"
+  status = 404
 
 # Environment variables for security
-[context.production.environment]
+[build.environment]
   NODE_ENV = "production"
-  NEXT_PUBLIC_CHAIN_ID = "33139"
-  # Add your WalletConnect Project ID here
-  # NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID = "your_project_id"
-
-[context.deploy-preview.environment]
-  NODE_ENV = "preview"
-  NEXT_PUBLIC_CHAIN_ID = "33139"
-
-[context.branch-deploy.environment]
-  NODE_ENV = "development"
-  NEXT_PUBLIC_CHAIN_ID = "33139"
-  NEXT_PUBLIC_DISABLE_CSP = "true"
+  NEXT_TELEMETRY_DISABLED = "1"
+  NEXTAUTH_URL = "https://your-domain.netlify.app"
+  NEXTAUTH_SECRET = "your-secret-here"

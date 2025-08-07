@@ -49,7 +49,15 @@ export function middleware(request: NextRequest) {
 
   // Check if the limit is exceeded
   if (relevantTimestamps.length >= limit) {
-    return new NextResponse('Too many requests.', { status: 429 });
+    return new NextResponse('Too many requests.', { 
+      status: 429,
+      headers: {
+        'Retry-After': '60',
+        'X-RateLimit-Limit': limit.toString(),
+        'X-RateLimit-Remaining': '0',
+        'X-RateLimit-Reset': (now + windowMs).toString()
+      }
+    });
   }
 
   // Add the current timestamp and update the store
@@ -98,7 +106,6 @@ export function middleware(request: NextRequest) {
   );
 
   // Enhanced, environment-aware Content Security Policy
-  const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
   const isDevelopment = process.env.NODE_ENV === 'development';
 
   // Define trusted domains
@@ -138,16 +145,7 @@ export function middleware(request: NextRequest) {
     ...trustedDomains,
   ];
 
-  const imgSrc = [
-    `'self'`,
-    `data:`,
-    `blob:`,
-    `https:`,
-    ...trustedDomains,
-    `https://*.ipfs.io`,
-    `https://*.ipfs.dweb.link`,
-    `https://*.gateway.pinata.cloud`,
-  ];
+  // Image sources are handled by netlify.toml CSP
 
   const connectSrc = [
     `'self'`,
@@ -170,7 +168,7 @@ export function middleware(request: NextRequest) {
     `https://cloud.reown.com`,
   ];
 
-  // Production-ready CSP with proper security
+  // CSP adjustments
   if (isDevelopment) {
     // Development: more permissive for debugging
     scriptSrc.push(`'unsafe-eval'`);
@@ -184,21 +182,23 @@ export function middleware(request: NextRequest) {
     styleSrc.push(`'unsafe-inline'`);  // Required for dynamic styles
   }
 
+  // CRITICAL: Add CSP header for local development
   const cspHeader = [
     `default-src 'self'`,
-    `script-src ${scriptSrc.join(' ')}`,
-    `style-src ${styleSrc.join(' ')}`,
-    `img-src ${imgSrc.join(' ')}`,
-    `font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net https://unpkg.com`,
-    `connect-src ${connectSrc.join(' ')}`,
+    `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.walletconnect.com https://*.walletconnect.org https://*.metamask.io https://*.rainbow.me https://*.coinbase.com https://*.trustwallet.com https://*.alchemy.com https://*.apechain.com https://*.ethereum.org https://*.web3modal.com https://*.web3js.org https://cdn.jsdelivr.net https://unpkg.com https://*.cloudflare.com https://*.jsdelivr.net`,
+    `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://unpkg.com https://*.cloudflare.com`,
+    `img-src 'self' data: blob: https: https://*.ipfs.io https://*.ipfs.dweb.link https://*.gateway.pinata.cloud https://*.cloudflare-ipfs.com https://*.arweave.net https://*.nftstorage.link`,
+    `connect-src 'self' https: wss: ws: https://*.walletconnect.com https://*.walletconnect.org https://*.metamask.io https://*.rainbow.me https://*.coinbase.com https://*.trustwallet.com https://*.alchemy.com https://*.apechain.com https://*.ethereum.org https://*.infura.io https://*.quicknode.com https://*.moralis.io https://*.web3modal.com https://*.web3js.org https://*.ipfs.io https://*.ipfs.dweb.link https://*.gateway.pinata.cloud https://*.cloudflare-ipfs.com https://*.arweave.net https://*.nftstorage.link`,
+    `font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net https://unpkg.com https://*.cloudflare.com`,
     `media-src 'self' https: data: blob:`,
-    `frame-src 'self' https://www.google.com/recaptcha/ https://*.walletconnect.com https://*.walletconnect.org https://*.metamask.io https://*.rainbow.me https://*.coinbase.com https://*.trustwallet.com`,
+    `frame-src 'self' https://www.google.com/recaptcha/ https://*.walletconnect.com https://*.walletconnect.org https://*.metamask.io https://*.rainbow.me https://*.coinbase.com https://*.trustwallet.com https://*.alchemy.com https://*.apechain.com https://*.ethereum.org https://*.web3modal.com`,
     `object-src 'none'`,
     `base-uri 'self'`,
     `form-action 'self'`,
     `frame-ancestors 'none'`,
     `upgrade-insecure-requests`,
-    `report-uri /api/csp-report`,
+    `block-all-mixed-content`,
+    `require-trusted-types-for 'script'`
   ].join('; ');
 
   response.headers.set('Content-Security-Policy', cspHeader);

@@ -21,6 +21,7 @@ import { useEffect, useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/navigation';
+import DOMPurify from 'isomorphic-dompurify';
 
 const CoinsAnimation = dynamic(
   () => import('@/components/coins-animation').then(m => m.CoinsAnimation),
@@ -67,10 +68,17 @@ export default function ClaimPage() {
           }
         } catch (error) {
           setIsValidWallet(false);
+          
+          // CRITICAL: XSS Protection - sanitize error message
+          const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+          const sanitizedMessage = DOMPurify.sanitize(errorMessage, { 
+            ALLOWED_TAGS: [], 
+            ALLOWED_ATTR: [] 
+          });
+          
           toast({
             title: 'Validation Error',
-            description:
-              'Failed to validate your wallet. Please try again later.',
+            description: sanitizedMessage || 'Failed to validate your wallet. Please try again later.',
             variant: 'destructive',
           });
         } finally {

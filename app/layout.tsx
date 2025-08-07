@@ -1,4 +1,4 @@
-import '../lib/trusted-types'; // Import to enforce Trusted Types policies
+ // Trusted Types polyfill insertion moved to <head> for early execution
 import type React from 'react';
 import ClientLayout from './ClientLayout';
 import '../styles/globals.css';
@@ -48,6 +48,9 @@ function RootLayout({
           content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'
         />
         <link rel='manifest' href='/manifest.json' />
+      {/* Tiny Trusted Types polyfill loaded before any other script */}
+        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+        <script src='/trusted-types-tinyfill.js' suppressHydrationWarning />
       </head>
       <body className={inter.className}>
               {/* moved to ViewportFix component */}
