@@ -13,9 +13,11 @@ import {
 
 // Trusted audio domains
 const TRUSTED_AUDIO_DOMAINS = [
+  'kybbbbb.netlify.app',
   'dulcet-cannoli-e7490f.netlify.app',
   'crazycube.xyz',
   'localhost',
+  'cdn.pixabay.com',
 ];
 
 // Validate audio URL
@@ -64,26 +66,26 @@ const sanitizeTrackData = (track: unknown) => {
 const musicTracks = [
   {
     id: 'track1',
-    name: 'Cube Party',
-    url: 'https://dulcet-cannoli-e7490f.netlify.app/456.mp3',
+    name: 'Romantic Ballad',
+    url: 'https://cdn.pixabay.com/audio/2023/04/11/audio_cba4e40c2e.mp3',
     theme: 'party',
   },
   {
     id: 'track2',
-    name: 'Retro Cubes',
-    url: 'https://dulcet-cannoli-e7490f.netlify.app/678.mp3',
+    name: 'Pixabay Music',
+    url: 'https://cdn.pixabay.com/audio/2023/04/11/audio_d1c8b8f2e.mp3',
     theme: 'retro',
   },
   {
     id: 'track3',
     name: 'Chill Cube',
-    url: 'https://dulcet-cannoli-e7490f.netlify.app/890.mp3',
+    url: 'https://cdn.pixabay.com/audio/2023/04/11/audio_e2f9b8c1d.mp3',
     theme: 'chill',
   },
   {
     id: 'track4',
     name: 'Z Party',
-    url: 'https://dulcet-cannoli-e7490f.netlify.app/zzz55.mp3',
+    url: 'https://cdn.pixabay.com/audio/2023/04/11/audio_f3a0c9d2e.mp3',
     theme: 'dance',
   },
 ].map(sanitizeTrackData).filter(Boolean);

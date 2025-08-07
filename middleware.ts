@@ -101,7 +101,7 @@ export function middleware(request: NextRequest) {
   );
   response.headers.set('Cross-Origin-Resource-Policy', 'same-origin');
   response.headers.set('Cross-Origin-Opener-Policy', 'same-origin');
-  response.headers.set('Cross-Origin-Embedder-Policy', 'require-corp');
+  response.headers.set('Cross-Origin-Embedder-Policy', 'unsafe-none');
   response.headers.set('X-XSS-Protection', '1; mode=block');
   response.headers.set(
     'Permissions-Policy',
@@ -193,7 +193,7 @@ export function middleware(request: NextRequest) {
     `img-src 'self' data: blob: https: https://*.ipfs.io https://*.ipfs.dweb.link https://*.gateway.pinata.cloud https://*.cloudflare-ipfs.com https://*.arweave.net https://*.nftstorage.link`,
     `connect-src 'self' https: wss: ws: https://*.walletconnect.com https://*.walletconnect.org https://*.metamask.io https://*.rainbow.me https://*.coinbase.com https://*.trustwallet.com https://*.alchemy.com https://*.apechain.com https://*.ethereum.org https://*.infura.io https://*.quicknode.com https://*.moralis.io https://*.web3modal.com https://*.web3js.org https://*.ipfs.io https://*.ipfs.dweb.link https://*.gateway.pinata.cloud https://*.cloudflare-ipfs.com https://*.arweave.net https://*.nftstorage.link`,
     `font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net https://unpkg.com https://*.cloudflare.com`,
-    `media-src 'self' https: data: blob:`,
+    `media-src 'self' https: data: blob: https://*.pixabay.com https://*.soundjay.com`,
     `frame-src 'self' https://www.google.com/recaptcha/ https://*.walletconnect.com https://*.walletconnect.org https://*.metamask.io https://*.rainbow.me https://*.coinbase.com https://*.trustwallet.com https://*.alchemy.com https://*.web3modal.com`,
     `object-src 'none'`,
     `base-uri 'self'`,

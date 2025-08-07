@@ -48,6 +48,7 @@
     "scripts/**",
     "floor-oracle-bot/**",
     "bots/**",
-    "craa-token/**"
+    "craa-token/**",
+    "sat6-gl-main/**"
   ]
 }

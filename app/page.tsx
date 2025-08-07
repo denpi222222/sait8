@@ -18,14 +18,16 @@ import { TabNavigation } from '@/components/tab-navigation';
 import dynamic from 'next/dynamic';
 import { WalletConnectNoSSR as WalletConnect } from '@/components/web3/wallet-connect.no-ssr';
 
-const UserNFTsPreview = dynamic(
-  () => import('@/components/UserNFTsPreview').then(m => m.UserNFTsPreview),
-  { ssr: false }
-);
 import { useAccount } from 'wagmi';
 import { usePerformanceContext } from '@/hooks/use-performance-context';
 import { useNetwork } from '@/hooks/use-network';
 import { NetworkSwitchProgress } from '@/components/NetworkSwitchProgress';
+import { CompactMusicPlayer } from '@/components/CompactMusicPlayer';
+
+const UserNFTsPreview = dynamic(
+  () => import('@/components/UserNFTsPreview').then(m => m.UserNFTsPreview),
+  { ssr: false }
+);
 
 // Dynamic imports of heavy animations with conditional loading
 const CubeAnimation = dynamic(
@@ -343,6 +345,11 @@ export default function HomePage() {
         {/* User NFTs Preview */}
         <div className='mb-16'>
           <UserNFTsPreview />
+        </div>
+
+        {/* Music Player */}
+        <div className='mb-8 flex justify-center'>
+          <CompactMusicPlayer />
         </div>
 
         {/* Main Grid - OPTIMIZED */}
