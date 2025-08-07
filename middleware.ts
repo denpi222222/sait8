@@ -182,26 +182,8 @@ export function middleware(request: NextRequest) {
     styleSrc.push(`'unsafe-inline'`);  // Required for dynamic styles
   }
 
-  // CRITICAL: Add CSP header for local development
-  const cspHeader = [
-    `default-src 'self'`,
-    `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.walletconnect.com https://*.walletconnect.org https://*.metamask.io https://*.rainbow.me https://*.coinbase.com https://*.trustwallet.com https://*.alchemy.com https://*.apechain.com https://*.ethereum.org https://*.web3modal.com https://*.web3js.org https://cdn.jsdelivr.net https://unpkg.com https://*.cloudflare.com https://*.jsdelivr.net`,
-    `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://unpkg.com https://*.cloudflare.com`,
-    `img-src 'self' data: blob: https: https://*.ipfs.io https://*.ipfs.dweb.link https://*.gateway.pinata.cloud https://*.cloudflare-ipfs.com https://*.arweave.net https://*.nftstorage.link`,
-    `connect-src 'self' https: wss: ws: https://*.walletconnect.com https://*.walletconnect.org https://*.metamask.io https://*.rainbow.me https://*.coinbase.com https://*.trustwallet.com https://*.alchemy.com https://*.apechain.com https://*.ethereum.org https://*.infura.io https://*.quicknode.com https://*.moralis.io https://*.web3modal.com https://*.web3js.org https://*.ipfs.io https://*.ipfs.dweb.link https://*.gateway.pinata.cloud https://*.cloudflare-ipfs.com https://*.arweave.net https://*.nftstorage.link`,
-    `font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net https://unpkg.com https://*.cloudflare.com`,
-    `media-src 'self' https: data: blob:`,
-    `frame-src 'self' https://www.google.com/recaptcha/ https://*.walletconnect.com https://*.walletconnect.org https://*.metamask.io https://*.rainbow.me https://*.coinbase.com https://*.trustwallet.com https://*.alchemy.com https://*.apechain.com https://*.ethereum.org https://*.web3modal.com`,
-    `object-src 'none'`,
-    `base-uri 'self'`,
-    `form-action 'self'`,
-    `frame-ancestors 'none'`,
-    `upgrade-insecure-requests`,
-    `block-all-mixed-content`,
-    `require-trusted-types-for 'script'`
-  ].join('; ');
-
-  response.headers.set('Content-Security-Policy', cspHeader);
+  // CSP is handled by netlify.toml to avoid conflicts
+  // response.headers.set('Content-Security-Policy', cspHeader);
   response.headers.set('X-Request-ID', crypto.randomUUID());
 
   return response;
