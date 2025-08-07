@@ -59,7 +59,7 @@ const musicTracks: MusicTrack[] = [
   {
     id: 'track1',
     name: 'Cube Party',
-    url: 'https://dulcet-cannoli-e7490f.netlify.app/456.mp3',
+    url: 'https://cdn.pixabay.com/audio/2023/04/11/audio_cba4e40c2e.mp3',
     theme: 'party',
     color: 'blue',
     cubeIndices: [0, 4, 7], // Blue cube and two others for party
@@ -67,7 +67,7 @@ const musicTracks: MusicTrack[] = [
   {
     id: 'track2',
     name: 'Retro Cubes',
-    url: 'https://dulcet-cannoli-e7490f.netlify.app/678.mp3',
+    url: 'https://cdn.pixabay.com/audio/2023/04/11/audio_d1c8b8f2e.mp3',
     theme: 'retro',
     color: 'purple',
     cubeIndices: [0, 2, 6], // Blue cube and two others for retro
@@ -75,7 +75,7 @@ const musicTracks: MusicTrack[] = [
   {
     id: 'track3',
     name: 'Chill Cube',
-    url: 'https://dulcet-cannoli-e7490f.netlify.app/890.mp3',
+    url: 'https://cdn.pixabay.com/audio/2023/04/11/audio_e2f9b8c1d.mp3',
     theme: 'chill',
     color: 'green',
     cubeIndices: [0, 5, 8], // Blue cube and two others for chill
@@ -83,7 +83,7 @@ const musicTracks: MusicTrack[] = [
   {
     id: 'track4',
     name: 'Z Party',
-    url: 'https://dulcet-cannoli-e7490f.netlify.app/zzz55.mp3',
+    url: 'https://cdn.pixabay.com/audio/2023/04/11/audio_f3a0c9d2e.mp3',
     theme: 'dance',
     color: 'pink',
     cubeIndices: [0, 3, 7], // Blue cube and two others for dance

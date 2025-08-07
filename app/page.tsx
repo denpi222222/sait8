@@ -22,7 +22,7 @@ import { useAccount } from 'wagmi';
 import { usePerformanceContext } from '@/hooks/use-performance-context';
 import { useNetwork } from '@/hooks/use-network';
 import { NetworkSwitchProgress } from '@/components/NetworkSwitchProgress';
-import { CompactMusicPlayer } from '@/components/CompactMusicPlayer';
+
 
 const UserNFTsPreview = dynamic(
   () => import('@/components/UserNFTsPreview').then(m => m.UserNFTsPreview),
@@ -347,10 +347,7 @@ export default function HomePage() {
           <UserNFTsPreview />
         </div>
 
-        {/* Music Player */}
-        <div className='mb-8 flex justify-center'>
-          <CompactMusicPlayer />
-        </div>
+
 
         {/* Main Grid - OPTIMIZED */}
         <div
